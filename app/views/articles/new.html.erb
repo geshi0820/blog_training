@@ -1,0 +1,19 @@
+<h1>Articles</h1>
+
+<div class="container">
+<form id="item_remote_image_url" action="" method="post">
+	<%= form_for @article do |f| %>
+	<%= f.label :title %><br>
+	<%= f.text_field :title%><br>
+	<%= f.label :content %><br>
+	<%= f.text_field :article %><br>
+	<%= f.hidden_field :user_id ,:value => @userid%>
+	<br>
+	<%= render 'canvas' %>
+	<p>める<input id="item_remote_image_url "type="text" name="data" value="hello">
+		<p><input type="submit" value="送信"></p>
+		</p>
+		
+		</form>
+	<% end %>
+</div>

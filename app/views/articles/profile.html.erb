@@ -1,0 +1,35 @@
+
+<%= link_to "お気に入り一覧", favorite_index_articles_path %>
+<%= link_to "フォロー一覧", follow_index_articles_path %>
+
+
+<div class="container" style="padding:20px 0">
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th>Title</th>
+				<th>Time</th>
+				<th>Show</th>
+				<th>Edit</th>
+				<th>Drop</th>
+			</tr>
+		</thead>
+		<% @articles.reverse_each do |article| %> 
+		<tbody>	
+			<tr>
+				<th><%=article.title %></th>
+				<th><%= article.title %></th>
+				<th><%= tokyotime(article.created_at) %></th>
+				<th><%= link_to "show", article_path(article),method: :get-%></th>
+				<th><%= link_to "edit", edit_article_path(article),method: :get -%></th>
+				<th><%= link_to "delete", article_path(article), method: :delete -%></th>
+			</tr>
+		</tbody>
+		<% end -%>
+	</table>
+</div>
+
+
+
+
+

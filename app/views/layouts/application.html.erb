@@ -1,0 +1,51 @@
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Blogapp</title>
+  <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
+  <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+  <%= csrf_meta_tags %>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BlogApp</title>
+</head>
+<body>
+  <header>
+    <nav>
+      <% else %>
+      <% if user_signed_in? %>
+      <% if current_user.admin %>
+      <h3><%= link_to "Log Out", destroy_user_session_path, method: :delete %></h3>
+      <%= render :file => 'app/views/admins/index.html.erb'%>
+      <% else %>
+      <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="navbar-header">
+          <li class="navbar-brand"><%= link_to "Blog", articles_path  %></li>
+        </div>
+        <ul class="nav navbar-nav">
+          <li><%= link_to 'Edit', edit_user_registration_path %></li>
+          <li><%= link_to "Out", destroy_user_session_path, method: :delete %></li>
+          <li><%= link_to "Profile", profile_articles_path(@userid) %></li>
+          <li><%= image_tag (current_user.image) %></li>
+          <li><%= link_to current_user.username%></li>
+        </ul>
+      </nav>
+      <br>
+      <%= yield %>
+      <% end -%>
+      <% else %>
+      <%= link_to "サインイン", new_user_registration_path %> |
+      <%= link_to "ログイン", new_user_session_path %>
+      <%= yield %>
+    </nav>
+  </header>
+  <p class="notice"><%= notice %></p>
+  <p class="alert"><%= alert %></p>
+  <% end %>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+</body>
+</html>
+
