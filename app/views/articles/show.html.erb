@@ -2,14 +2,14 @@
 	Article：
 <p>
 	<% @article.article%>
-	<%= image_tag (@article.image_url,:size =>"200x200" ) %>
+	<%= image_tag (@article.image_url) %>
 </p>
 
 <hr>
 
 
 <br><br>
-<h3>【Comment】</h3>
+<h3>comment</h3>
 <% @article.comments.reverse_each do |comment| %>
 <!-- showへの接続もできている。commentsのDBもある。commentのカラムもある。前の掲示板のつくりとも全く同じ。-->
 <li>

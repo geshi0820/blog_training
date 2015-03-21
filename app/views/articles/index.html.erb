@@ -1,6 +1,7 @@
+<br>
 <botton class="btn btn-info"><%= link_to "Create", new_article_path %></i></botton>
 <div class="container" style="padding:20px 0">
-	<table class="table table-striped">
+	<table class="table">
 		<thead>
 			<tr>
 				<th>Name</th>
@@ -19,15 +20,16 @@
 				<th><%= tokyotime(article.created_at) %></th>
 				<th><%= link_to "show", article_path(article),method: :get-%> </th>
 				<th><% if @follows.where("user_id = ? and followed_id = ?", @userid , article.user_id).pluck(:user_id,:followed_id).include?([@userid,article.user_id]) %>
-					<%= link_to "unfollow", follow_path(@follows.where("user_id = ? and followed_id = ?", @userid , article.user_id).pluck(:id).at(0)),method: :delete %> 
+
+					 <%= link_to image_tag("/assets/follow.jpg"), follow_path(@follows.where("user_id = ? and followed_id = ?", @userid , article.user_id).pluck(:id).at(0)),method: :delete %> 
 					<% else %>
-					<%= link_to "follow", article_follows_path(article), method: :post -%> 
+					 <%= link_to image_tag("/assets/unfollow.jpg"), article_follows_path(article), method: :post -%> 
 					<% end -%>
 				</th>
 				<th><% if @favorites.where("article_id = ? and user_id = ?", article.id , @userid).pluck(:article_id,:user_id).include?([article.id,@userid]) %>
-					<%= link_to "unfavo", favorite_path(@favorites.where("article_id = ? and user_id = ?", article.id , @userid).pluck(:id).at(0)), method: :delete %>
+						<%= link_to image_tag("/assets/favorite_shade.jpg"), favorite_path(@favorites.where("article_id = ? and user_id = ?", article.id , @userid).pluck(:id).at(0)), method: :delete %>
 					<% else %>
-					<%= link_to "favorite", article_favorites_path(article), method: :post%> 
+						<%= link_to image_tag("/assets/favorite_star.jpg"), article_favorites_path(article), method: :post%> 
 					<% end -%></th>
 				</tr>
 			</tbody>

@@ -15,7 +15,6 @@
 <body>
   <header>
     <nav>
-      <% else %>
       <% if user_signed_in? %>
       <% if current_user.admin %>
       <h3><%= link_to "Log Out", destroy_user_session_path, method: :delete %></h3>
@@ -26,13 +25,17 @@
           <li class="navbar-brand"><%= link_to "Blog", articles_path  %></li>
         </div>
         <ul class="nav navbar-nav">
+          <% if current_user.provider %>
+          <li><%= image_tag (@picture) %></li>
+          <li><%= link_to @name,profile_articles_path(@userid)%></li>
+          <% else %>
+          <li><%= image_tag (current_user.image) %></li>
+          <li><%= link_to current_user.username,profile_articles_path(@userid)%></li>
+          <% end -%>
           <li><%= link_to 'Edit', edit_user_registration_path %></li>
           <li><%= link_to "Out", destroy_user_session_path, method: :delete %></li>
-          <li><%= link_to "Profile", profile_articles_path(@userid) %></li>
-          <li><%= image_tag (current_user.image) %></li>
-          <li><%= link_to current_user.username%></li>
         </ul>
-      </nav>
+      </nav>  
       <br>
       <%= yield %>
       <% end -%>
@@ -40,12 +43,11 @@
       <%= link_to "サインイン", new_user_registration_path %> |
       <%= link_to "ログイン", new_user_session_path %>
       <%= yield %>
-    </nav>
-  </header>
-  <p class="notice"><%= notice %></p>
-  <p class="alert"><%= alert %></p>
-  <% end %>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-</body>
-</html>
+      <p class="notice"><%= notice %></p>
+      <p class="alert"><%= alert %></p>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+      <% end %>
+    </header>
+  </body>
+  </html>
 

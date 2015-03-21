@@ -1,7 +1,5 @@
 class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
-
-  
   def facebook
     callback_from :facebook
   end
@@ -16,7 +14,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
       sign_in_and_redirect @user, event: :authentication
     else
       session["devise.#{provider}_data"] = request.env['omniauth.auth']
-      token = "CAAWF8XmmjJEBACLtCplvw2pq9lCOAkjLV7xvKk0y3ZBG8QBxbymUJOx3B82NpW2VmKZCP1mWM6MG1cUC0ajn1fY62VX1A8LUh01K2nS3n9DdzjjUuFySrItIVxuN22pLF1BoX9QyL1At0WvHyOZA2CeMoCIXa12mFHtOLa22ECam336J0ZAVZAfzOYMZAUEcNpeJHrimEIUore1nzdS22yhFFuWmnwY9MZD"
+      token = "CAAWF8XmmjJEBALjRgLps1h0TYF5wgbLCehrdkF3DGwswjd1ZBUFS7wi4qmXCdyuZC6UG9vNaSd6LVzrsbFZAm6msJuTCPvU1ZBDxRkyk6ZAPvpoUNdBIBh5nxtPCj16fe2Buz4y5qFSFsMHpjeGxiJqeo6NxZCpziYIUxoLEZCLNHZBNxOZAmvVzPrgdjeN82cPFZA5Keck3qZCboTrcWYACcJ8donQxXQTmX4ZD"
       facebook = Koala::Facebook::API.new(token)
       @name = facebook.get_object('me')
       fb = User.find(1).update(:username => @name.fetch("name"))

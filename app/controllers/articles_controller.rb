@@ -1,7 +1,6 @@
 class ArticlesController < ApplicationController
-
-	before_action :facebook,:set_project
-
+	before_action :set_project
+	before_action :facebook
 
 	def index
 		@favorites = Favorite.all
@@ -17,11 +16,11 @@ class ArticlesController < ApplicationController
 	end
 
 	def create
-		tmp_article_params = article_params
-		image_data = base64_conversion(tmp_article_params[:remote_image_url])
-		tmp_article_params[:image] = image_data
-		tmp_article_params[:remote_image_url] = nil
-		@article = Article.new(tmp_article_params)
+		# tmp_article_params = article_params
+		# image_data = base64_conversion(tmp_article_params[:remote_image_url])
+		# tmp_article_params[:image] = image_data
+		# tmp_article_params[:remote_image_url] = nil
+		@article = Article.new(article_params)
 		if @article.save
 			redirect_to articles_path
 		end
@@ -60,6 +59,8 @@ class ArticlesController < ApplicationController
 		@follows = Follow.all
 	end
 
+
+
 	private
 	def article_params
 		params[:article].permit(:title,:article,:user_id,:image, :remote_image_url)
@@ -70,11 +71,11 @@ class ArticlesController < ApplicationController
 	end
 
 	def facebook
-	# 	uid = current_user.uid.to_s
-	# 	@picture = "https://graph.facebook.com/"+uid+"/picture?type=square"
-	# 	token = "CAAWF8XmmjJEBACLtCplvw2pq9lCOAkjLV7xvKk0y3ZBG8QBxbymUJOx3B82NpW2VmKZCP1mWM6MG1cUC0ajn1fY62VX1A8LUh01K2nS3n9DdzjjUuFySrItIVxuN22pLF1BoX9QyL1At0WvHyOZA2CeMoCIXa12mFHtOLa22ECam336J0ZAVZAfzOYMZAUEcNpeJHrimEIUore1nzdS22yhFFuWmnwY9MZD"
-	# 	facebook = Koala::Facebook::API.new(token)
-	# 	@name = facebook.get_object('me')
+		uid = current_user.uid.to_s
+		@picture = "https://graph.facebook.com/"+uid+"/picture?type=square"
+		token = "CAAWF8XmmjJEBALjRgLps1h0TYF5wgbLCehrdkF3DGwswjd1ZBUFS7wi4qmXCdyuZC6UG9vNaSd6LVzrsbFZAm6msJuTCPvU1ZBDxRkyk6ZAPvpoUNdBIBh5nxtPCj16fe2Buz4y5qFSFsMHpjeGxiJqeo6NxZCpziYIUxoLEZCLNHZBNxOZAmvVzPrgdjeN82cPFZA5Keck3qZCboTrcWYACcJ8donQxXQTmX4ZD"
+		facebook = Koala::Facebook::API.new(token)
+		@name = facebook.get_object('me')["name"]
 	end
 
 	def set_project
@@ -85,7 +86,7 @@ class ArticlesController < ApplicationController
 
 	def base64_conversion(uri_str, filename = 'base64')
 		image_data = split_base64(uri_str)
-		image_data_string = image_data[:data]
+		image_data_string = image_data[:remote_image_url]
 		image_data_binary = Base64.decode64(image_data_string)
 		temp_img_file = Tempfile.new(filename)
 		temp_img_file.binmode
@@ -107,6 +108,4 @@ class ArticlesController < ApplicationController
 			return nil
 		end
 	end
-
 end
-
