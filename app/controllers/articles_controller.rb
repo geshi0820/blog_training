@@ -73,7 +73,7 @@ class ArticlesController < ApplicationController
 	def facebook
 		uid = current_user.uid.to_s
 		@picture = "https://graph.facebook.com/"+uid+"/picture?type=square"
-		token = "CAAWF8XmmjJEBALjRgLps1h0TYF5wgbLCehrdkF3DGwswjd1ZBUFS7wi4qmXCdyuZC6UG9vNaSd6LVzrsbFZAm6msJuTCPvU1ZBDxRkyk6ZAPvpoUNdBIBh5nxtPCj16fe2Buz4y5qFSFsMHpjeGxiJqeo6NxZCpziYIUxoLEZCLNHZBNxOZAmvVzPrgdjeN82cPFZA5Keck3qZCboTrcWYACcJ8donQxXQTmX4ZD"
+		token = "CAAWF8XmmjJEBAI2bTSdbm0UWBWcBgFB1DZCCGD6yM4ZAqYfjmyZB7JFyiQGSsFNZBmtw2LWWkz3qmbt7QmgZC8doxMyECRLRb6GpXGdhnXC7HIt9vFPZAB0bsGaKOqFco9HoKYFuSykHRbB6yHQWZC8LtRGOxssIxPywp5rwoGHKUPXLiTw6oYR3JzFzcAWO7fs5UsD4rhLa1OiR5Y3WDxd"
 		facebook = Koala::Facebook::API.new(token)
 		@name = facebook.get_object('me')["name"]
 	end
