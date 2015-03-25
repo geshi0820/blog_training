@@ -19,12 +19,12 @@
 	}
 </style>
 
-<h1><%= @user_name %></h1><br>
+<h1><%= @user_name %>のページ</h1><br>
 <div class="container">
-	<span style="background-color: #FFD700;">
+	<span style="background-color: #3366FF;">
 		&nbsp; <%= link_to user_favorite_count(current_user.id),user_favorites_path(@user_id) %> favorite
 	</span>&nbsp;&nbsp;
-	<span style="background-color: #008000;">
+	<span style="background-color: #3366FF;">
 		&nbsp; <%= link_to user_follow_count(@user_id),user_follows_path(@user_id) %> follow
 	</span>&nbsp;&nbsp;
 	<span style="background-color: #3366FF;">
@@ -54,7 +54,7 @@
 				<th>&nbsp;<%= tokyotime(article.created_at) %></th>
 				<th>&nbsp;<%= article_favorite_count(article)%></th>
 				<th>&nbsp;<%= link_to "show", article_path(article) %></th>
-				<% if author_or_not(article.id,current_user.id)=="true" %>
+				<% if author_or_not(article.id,current_user.id)== 1 %>
 				<th>&nbsp;<%= link_to "edit", edit_article_path(article),method: :get -%></th>>
 				<th>&nbsp;<%= link_to "delete", article_path(article), method: :delete -%></th>
 				<% end -%>

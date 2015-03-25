@@ -1,4 +1,16 @@
 <style type="text/css">
+table{
+	background-color: white;
+	border: 2px solid black;
+}
+body{
+		background-color: #EEEEEE;
+}
+thead{
+	background-color: gray;
+	color: white;
+	border: 2px solid black;
+}
 </style>
 <br>
 <div class="container" >
@@ -6,6 +18,7 @@
 	<table class="table-hover" >
 		<thead>
 			<tr>
+				<th>Image</th>
 				<th>Name</th>
 				<th>Title</th>
 				<th>Time</th>
@@ -16,7 +29,9 @@
 		<% @articles.reverse_each do |article| %> 
 		<tbody>	
 			<tr>
+				<th><%= image_tag (user_image(article.user_id)) %></th>
 				<th><%= link_to author_name(article),user_path(article.user_id) %></th>
+
 				<th><%= article.title %></th>
 				<th><%= tokyotime(article.created_at) %></th>
 				<th><%= link_to "show", article_path(article),method: :get-%> </th>
@@ -26,14 +41,14 @@
 			<% else %>
 			
 			<th><%= link_to "ファボを外す。",favorite_path(favorite_id(article)), method: :delete %></tr>
-			<% end %>
+				<% end %>
 
-		</tbody>
-		<% end -%>
-	</table>
-</div>
-<div>	
-</div>
+			</tbody>
+			<% end -%>
+		</table>
+	</div>
+	<div>	
+	</div>
 
 
 

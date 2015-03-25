@@ -1,6 +1,48 @@
-<h1 style="color: black"><%= @user_name %>がフォローしている人</h1>
 
 
-<% @follows.each do |f| %>
-<%= follow_name(f.followed_id) %>
-<% end -%>
+
+
+
+<style type="text/css">
+	body{
+		/*background-color: #B8C4CC;*/
+	}
+	table{
+		background-color: white;
+		border:2px solid white;
+	}
+	span{
+		color: white;
+		font-size: 20px;
+	}
+	thead{
+		color: #FF1493;
+		font-size: 20px;
+	}
+</style>
+<h1 style="color: black"><%= @user_name %>がフォローしている人</h1><br>
+<div class="container">
+	<table class="table-hover">
+		<thead>
+			<tr>
+				<th>&nbsp;Image</th>
+				<th>&nbsp;Name</th>
+				<th>&nbsp;Articles</th>
+				<th>&nbsp;unfollow</th>
+			</tr>
+		</thead>
+		<% @follows.each do |f| %>
+		<tbody>
+			<tr>
+				<th><%= image_tag (user_image(f.followed_id)) %></th>
+				<th><%= follow_name(f.followed_id) %></th>
+				<th><%= user_article_count(f.followed_id) %></th>
+				<% if follow_or_not(f.followed_id,current_user.id)==1 %>
+				<th><%= link_to "delete follow", follow_path(follow_id(f.followed_id)) ,method: :delete %></th>
+				<% else %>
+				<th><%= link_to "create follow", user_follows_path(f.followed_id) , method: :post %></th>
+				<% end %>
+				<% end -%>
+			</tbody>
+		</table>
+	</div>

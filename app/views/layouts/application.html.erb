@@ -22,7 +22,7 @@
         <div class="navbar-brand"><%= link_to "Home", articles_path  %></div>
       </div>
       <ul class="nav navbar-nav">
-        <li><%= image_tag (current_user.image) %></li>
+        <li><%= image_tag (user_image(current_user.id)) %></li>
         <li><%= link_to current_user.username,user_path(current_user.id)%></li>
         <li><%= link_to 'Edit', edit_user_registration_path %></li>
         <li><%= link_to "Out", destroy_user_session_path, :method => :delete%></li>

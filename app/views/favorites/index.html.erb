@@ -20,7 +20,7 @@
 	}
 </style>
 
-<h1><%= @user_name %></h1><br>
+<h1><%= @user_name %>のお気に入り</h1><br>
 <div class="container">
 	<table class="table-hover">
 		<thead>
@@ -29,17 +29,22 @@
 				<th>&nbsp;author</th>
 				<th>&nbsp;favorite</th>
 				<th>&nbsp;show</th>
-				<th>&nbsp;edit</th>
-				<th>&nbsp;delete</th>
+				<th>&nbsp;unfavorite</th>
 			</tr>
 		</thead>
-		<% @article_id.each do |f| %>	
+		<% @favorite_users.each do |f| %>	
 		<tbody>
 			<tr>
 				<th><%= article_favorite(f.article_id).title %></th>
-				<th><%= author_name(f.article_id) %></th>
+				<th><%= link_to image_tag(user_image(author_id(f.article_id))) ,user_path(author_id(f.article_id)) %></th>
 				<th><%= article_favorite_count(f.article_id) %></th>			
-				<% end -%>
-			</tbody>
-		</table>
-	</div>
+				<th><%= link_to "show", article_path(f.article_id) %></th>
+				<% unless favorite_or_not(f.article_id)==1 %>
+				<th><%= link_to "いいね",article_favorites_path(f.article_id),method: :post %></th>
+				<% else %>
+				<th><%= link_to "ファボを外す。",favorite_path(favorite_id(f.article_id)), method: :delete %></tr>
+					<% end %>
+					<% end -%>
+				</tbody>
+			</table>
+		</div>
