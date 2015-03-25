@@ -9,6 +9,8 @@
 	span{
 		color: white;
 		font-size: 20px;
+		background-color: #660033;
+		border-radius: 10%;
 	}
 	thead{
 		color: #FF1493;
@@ -21,19 +23,20 @@
 
 <h1><%= @user_name %>のページ</h1><br>
 <div class="container">
-	<span style="background-color: #3366FF;">
+	<span>
 		&nbsp; <%= link_to user_favorite_count(current_user.id),user_favorites_path(@user_id) %> favorite
 	</span>&nbsp;&nbsp;
-	<span style="background-color: #3366FF;">
+	<span>
 		&nbsp; <%= link_to user_follow_count(@user_id),user_follows_path(@user_id) %> follow
 	</span>&nbsp;&nbsp;
-	<span style="background-color: #3366FF;">
+	<span>
 		&nbsp;<%= link_to user_follower_count(@user_id) %> follower
 	</span>&nbsp;&nbsp;
 	<% if follow_or_not(@user_id,current_user.id)==1 %>
-	<%= link_to "delete follow", follow_path(follow_id(@user_id)) ,method: :delete %>
+		<span  style="background-color: red">&nbsp; <%= link_to "unfollow", follow_path(follow_id(@user_id)) ,method: :delete %>&nbsp;
+	</span>
 	<% else %>
-	<%= link_to "create follow", user_follows_path(@user_id) , method: :post %>
+	<span style="background-color: red">&nbsp; <%= link_to "follow", user_follows_path(@user_id) , method: :post %>&nbsp;</span>
 	<% end %>
 	<br><br>
 	<table class="table-hover">
@@ -42,7 +45,6 @@
 				<th>&nbsp;title</th>
 				<th>&nbsp;time</th>
 				<th>&nbsp;favorite</th>
-				<th>&nbsp;show</th>
 				<th>&nbsp;edit</th>
 				<th>&nbsp;delete</th>
 			</tr>
@@ -50,13 +52,12 @@
 		<% @user_article.each do |article| %>	
 		<tbody>
 			<tr>
-				<th>&nbsp;<%= article.title %></th>
+				<th>&nbsp;<%= link_to article.title, article_path(article) %></th>
 				<th>&nbsp;<%= tokyotime(article.created_at) %></th>
 				<th>&nbsp;<%= article_favorite_count(article)%></th>
-				<th>&nbsp;<%= link_to "show", article_path(article) %></th>
 				<% if author_or_not(article.id,current_user.id)== 1 %>
-				<th>&nbsp;<%= link_to "edit", edit_article_path(article),method: :get -%></th>>
-				<th>&nbsp;<%= link_to "delete", article_path(article), method: :delete -%></th>
+				<th>&nbsp;<%= link_to  image_tag("/assets/edit.jpg/", :size => "30x30"), edit_article_path(article),method: :get  -%></th>>
+				<th>&nbsp;<%= link_to image_tag("/assets/drop.jpg/", :size => "30x30"), article_path(article), method: :delete -%></th>
 				<% end -%>
 			</tbody>
 			<% end -%>

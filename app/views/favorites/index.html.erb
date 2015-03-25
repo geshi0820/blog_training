@@ -28,14 +28,13 @@
 				<th>&nbsp;title</th>
 				<th>&nbsp;author</th>
 				<th>&nbsp;favorite</th>
-				<th>&nbsp;show</th>
 				<th>&nbsp;unfavorite</th>
 			</tr>
 		</thead>
 		<% @favorite_users.each do |f| %>	
 		<tbody>
 			<tr>
-				<th><%= article_favorite(f.article_id).title %></th>
+				<th><%= link_to article_favorite(f.article_id).title, article_path(f.article_id) %></th>
 				<th><%= link_to image_tag(user_image(author_id(f.article_id))) ,user_path(author_id(f.article_id)) %></th>
 				<th><%= article_favorite_count(f.article_id) %></th>			
 				<th><%= link_to "show", article_path(f.article_id) %></th>

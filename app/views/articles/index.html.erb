@@ -1,20 +1,20 @@
 <style type="text/css">
 table{
 	background-color: white;
-	border: 2px solid black;
-}
-body{
-		background-color: #EEEEEE;
 }
 thead{
-	background-color: gray;
-	color: white;
-	border: 2px solid black;
+	font-size: 20px;
+	color: #FF1493;
+}
+.create{
+	font-size: 30px;
+	background-color: white;
+	border: 5px solid #FF1493;
 }
 </style>
 <br>
 <div class="container" >
-	<botton class="btn .btn-yellow"><%= link_to "Create", new_article_path %></botton>
+	<botton class="create"><%= link_to "Create", new_article_path %></botton><br><br>
 	<table class="table-hover" >
 		<thead>
 			<tr>
@@ -22,7 +22,6 @@ thead{
 				<th>Name</th>
 				<th>Title</th>
 				<th>Time</th>
-				<th>Show</th>
 				<th>Like</th>
 			</tr>
 		</thead>
@@ -32,9 +31,8 @@ thead{
 				<th><%= image_tag (user_image(article.user_id)) %></th>
 				<th><%= link_to author_name(article),user_path(article.user_id) %></th>
 
-				<th><%= article.title %></th>
+				<th><%= link_to article.title, article_path(article) %></th>
 				<th><%= tokyotime(article.created_at) %></th>
-				<th><%= link_to "show", article_path(article),method: :get-%> </th>
 			</th>
 			<% unless favorite_or_not(article.id)==1 %>
 			<th><%= link_to "いいね",article_favorites_path(article),method: :post %></th>

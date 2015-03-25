@@ -1,15 +1,19 @@
+
 <div class="container">
 	<%= form_for @article,  :multipart => true do |f| %>
 	<p><%= f.label :title %></p>
 	<p><%= f.text_field :title, :value => "title"%></p>
 	<p><%= f.label :content %></p>
 	<p><%= f.text_field :article %></p>
-	<p><%= f.label :image %></p>
-	<p><%= f.text_field :image %></p> 
-	<p><%= f.hidden_field :remote_image_url,  :value =>"" %></p>
+	<p><%= f.hidden_field :image %></p> 
+	<p><%= f.hidden_field :remote_image_url %></p>
 	<p><%= f.hidden_field :user_id ,:value => @user_id%></p>
 	<div>
 		<style>
+		body{
+			background-image:  url("/assets/sky.jpg");
+			background-size: cover;
+		}
 			#mycanvas {
 				border: 10px solid #999;
 				cursor: crosshair;
@@ -30,15 +34,14 @@
 				<option value="3">中</option>
 				<option value="5">太</option>
 			</select>
-			<input type="button" id="erase" value="消去">
-			<input type="button" id="save" value="登録">
+			<input type="button" id="save" value="step1">
 		</p>
 		<canvas width="200" height="200" id="mycanvas">
 			Canvasに対応したブラウザを用意してください。
 		</canvas>
 		<div id="gallery"></div> 
 		<br>
-		<input type="button" id="push" value="hello">
+		<input type="button" id="push" value="step2">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 		<script>
 			$(function() {

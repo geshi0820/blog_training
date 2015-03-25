@@ -35,7 +35,7 @@
 		<tbody>
 			<tr>
 				<th><%= image_tag (user_image(f.followed_id)) %></th>
-				<th><%= follow_name(f.followed_id) %></th>
+				<th><%= link_to follow_name(f.followed_id) ,user_path(f.user_id) %></th>
 				<th><%= user_article_count(f.followed_id) %></th>
 				<% if follow_or_not(f.followed_id,current_user.id)==1 %>
 				<th><%= link_to "delete follow", follow_path(follow_id(f.followed_id)) ,method: :delete %></th>
