@@ -84,7 +84,7 @@
 					ctx.clearRect(0, 0, canvas.width, canvas.height);
 				});
 				$('#save').click(function() {
-					var img = $('<img>').attr({
+					var img = $('<img id="myImg">').attr({
 						width: 200,
 						height:200,
 						src: canvas.toDataURL()
@@ -97,8 +97,8 @@
 				});
 				$("#push").on("click", function () {
 					alert(0);
-					var _form = $("img");
-					var canvas = $("gallery").attr("href");
+					var _form = $("img#myImg");
+					var canvas = $("img#myImg").attr("src");
 			      $("#article_image").val(canvas); //画像データを二重に送信するのを防ぐ
 			      $("#article_remote_image_url").val(canvas);
 			      console.log(canvas);

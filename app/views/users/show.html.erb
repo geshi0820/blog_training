@@ -7,7 +7,6 @@
 		border:2px solid white;
 	}
 	span{
-		background-color: #FFD700;
 		color: white;
 		font-size: 20px;
 	}
@@ -15,17 +14,24 @@
 		color: #FF1493;
 		font-size: 20px;
 	}
+	h1{
+		color: black;
+	}
 </style>
 
+<h1><%= @user_name %></h1><br>
 <div class="container">
-	<span>
-		&nbsp; <%= link_to follow_count(current_user.id) %> follow
+	<span style="background-color: #FFD700;">
+		&nbsp; <%= link_to user_favorite_count(current_user.id),user_favorites_path(@user_id) %> favorite
 	</span>&nbsp;&nbsp;
-	<span>
-		&nbsp;<%= link_to follower_count(current_user.id) %> follower
+	<span style="background-color: #008000;">
+		&nbsp; <%= link_to user_follow_count(@user_id),user_follows_path(@user_id) %> follow
+	</span>&nbsp;&nbsp;
+	<span style="background-color: #3366FF;">
+		&nbsp;<%= link_to user_follower_count(@user_id) %> follower
 	</span>&nbsp;&nbsp;
 	<% if follow_or_not(@user_id,current_user.id)==1 %>
-	フォローしています。
+	<%= link_to "delete follow", follow_path(follow_id(@user_id)) ,method: :delete %>
 	<% else %>
 	<%= link_to "create follow", user_follows_path(@user_id) , method: :post %>
 	<% end %>
@@ -46,7 +52,7 @@
 			<tr>
 				<th>&nbsp;<%= article.title %></th>
 				<th>&nbsp;<%= tokyotime(article.created_at) %></th>
-				<th>&nbsp;<%= favorite_count(article)%></th>
+				<th>&nbsp;<%= article_favorite_count(article)%></th>
 				<th>&nbsp;<%= link_to "show", article_path(article) %></th>
 				<% if author_or_not(article.id,current_user.id)=="true" %>
 				<th>&nbsp;<%= link_to "edit", edit_article_path(article),method: :get -%></th>>

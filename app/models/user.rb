@@ -35,22 +35,25 @@ class User < ActiveRecord::Base
     user = User.where(uid: auth.uid, provider: auth.provider).first
 
     unless user
+      
       user = User.create(
         uid:      auth.uid,
         provider: auth.provider,
-        email:    User.dummy_email(auth),
+        username: auth.info.name,
+        email: User.get_email(auth),
+        image: auth[:info][:image], 
         password: Devise.friendly_token[0, 20]
         )
     end
 
     user
   end
-  private
-
-  def self.dummy_email(auth)
-    "#{auth.uid}-#{auth.provider}@example.com"
-  end
 
 
-
+private
+def self.get_email(auth)
+  email = auth.info.email
+  email = "#{auth.provider}-#{auth.uid}@example.com" if email.blank?
+  email
+end
 end

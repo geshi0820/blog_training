@@ -1,15 +1,15 @@
 module UsersHelper
 
-	def follow_count(user_id)
+	def user_follow_count(user_id)
+		p Follow.where("followed_id=?",user_id).count
+	end
+
+	def user_follower_count(user_id)
 		p Follow.where("user_id=?",user_id).count
 	end
 
-	def follower_count(user_id)
-		p Follow.where("followed_id=?",user_id).count
-	end
-	
-	def favorite_count(article_id)
-		p Favorite.where("article_id=?",article_id).count
+	def user_favorite_count(user_id)
+		p Favorite.where(user_id: user_id).count
 	end
 	
 	def author_or_not(article_id,author_id)

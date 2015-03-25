@@ -1,0 +1,6 @@
+<h1 style="color: black"><%= @user_name %>がフォローしている人</h1>
+
+
+<% @follows.each do |f| %>
+<%= follow_name(f.followed_id) %>
+<% end -%>

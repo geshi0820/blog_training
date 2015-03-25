@@ -16,13 +16,15 @@ class ArticlesController < ApplicationController
 	end
 
 	def create
-		# tmp_article_params = article_params
-		# image_data = base64_conversion(tmp_article_params[:remote_image_url])
-		# tmp_article_params[:image] = image_data
-		# tmp_article_params[:remote_image_url] = nil
-		@article = Article.new(article_params)
-		if @article.save
+		tmp_article_params = article_params
+		image_data = base64_conversion(tmp_article_params[:remote_image_url])
+		tmp_article_params[:image] = image_data
+		tmp_article_params[:remote_image_url] = nil
+		article = Article.new(tmp_article_params)
+		if article.save
 			redirect_to articles_path
+		else
+			redirect_to :back
 		end
 	end
 
@@ -84,7 +86,7 @@ class ArticlesController < ApplicationController
 
 	def base64_conversion(uri_str, filename = 'base64')
 		image_data = split_base64(uri_str)
-		image_data_string = image_data[:remote_image_url]
+		image_data_string = image_data[:data]
 		image_data_binary = Base64.decode64(image_data_string)
 		temp_img_file = Tempfile.new(filename)
 		temp_img_file.binmode

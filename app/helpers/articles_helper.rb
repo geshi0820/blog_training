@@ -1,11 +1,17 @@
 module ArticlesHelper
 
-  def author_name(article_id)
-  	 user_id = Article.find(article_id).user_id
-     User.find(user_id).username
-  end
+	def author_name(article_id)
+		user_id = Article.find(article_id).user_id
+		User.find(user_id).username
+	end
 
-  def favorite_id(article_id)
-  	Favorite.where("article_id=?",article_id).pluck(:id).at(0)
-  end
+	def article_favorite_count(article_id)
+		p Favorite.where("article_id=?",article_id).count
+	end
+
+	def article_favorite(article_id)
+		p Article.where(id: article_id).first
+	end
+
+
 end

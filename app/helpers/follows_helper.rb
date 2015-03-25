@@ -6,4 +6,13 @@ module FollowsHelper
 			p "followしていません。"
 		end
 	end
+
+	def follow_id(followed_id)
+		Follow.where(user_id: current_user.id, followed_id: followed_id).first.id
+	end
+
+	def follow_name(followed_id)
+		p User.find(followed_id).username
+	end
+
 end

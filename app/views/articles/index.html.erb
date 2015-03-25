@@ -2,7 +2,7 @@
 </style>
 <br>
 <div class="container" >
-	<botton class="btn .btn-yellow"><%= link_to "Create", new_article_path %></i></botton>
+	<botton class="btn .btn-yellow"><%= link_to "Create", new_article_path %></botton>
 	<table class="table-hover" >
 		<thead>
 			<tr>
@@ -21,10 +21,11 @@
 				<th><%= tokyotime(article.created_at) %></th>
 				<th><%= link_to "show", article_path(article),method: :get-%> </th>
 			</th>
-			<% if favorite_or_not(article.id)==2 %>
+			<% unless favorite_or_not(article.id)==1 %>
 			<th><%= link_to "いいね",article_favorites_path(article),method: :post %></th>
 			<% else %>
-			<th>ファボしています。</th>
+			
+			<th><%= link_to "ファボを外す。",favorite_path(favorite_id(article)), method: :delete %></tr>
 			<% end %>
 
 		</tbody>
@@ -33,3 +34,6 @@
 </div>
 <div>	
 </div>
+
+
+

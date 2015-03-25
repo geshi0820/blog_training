@@ -1,0 +1,45 @@
+
+<style type="text/css">
+	body{
+		/*background-color: #B8C4CC;*/
+	}
+	table{
+		background-color: white;
+		border:2px solid white;
+	}
+	span{
+		color: white;
+		font-size: 20px;
+	}
+	thead{
+		color: #FF1493;
+		font-size: 20px;
+	}
+	h1{
+		color: black;
+	}
+</style>
+
+<h1><%= @user_name %></h1><br>
+<div class="container">
+	<table class="table-hover">
+		<thead>
+			<tr>
+				<th>&nbsp;title</th>
+				<th>&nbsp;author</th>
+				<th>&nbsp;favorite</th>
+				<th>&nbsp;show</th>
+				<th>&nbsp;edit</th>
+				<th>&nbsp;delete</th>
+			</tr>
+		</thead>
+		<% @article_id.each do |f| %>	
+		<tbody>
+			<tr>
+				<th><%= article_favorite(f.article_id).title %></th>
+				<th><%= author_name(f.article_id) %></th>
+				<th><%= article_favorite_count(f.article_id) %></th>			
+				<% end -%>
+			</tbody>
+		</table>
+	</div>
