@@ -1,0 +1,58 @@
+<style type="text/css">
+	body{
+		/*background-color: #B8C4CC;*/
+	}
+	table{
+		background-color: white;
+		border:2px solid white;
+	}
+	span{
+		background-color: #FFD700;
+		color: white;
+		font-size: 20px;
+	}
+	thead{
+		color: #FF1493;
+		font-size: 20px;
+	}
+</style>
+
+<div class="container">
+	<span>
+		&nbsp; <%= link_to follow_count(current_user.id) %> follow
+	</span>&nbsp;&nbsp;
+	<span>
+		&nbsp;<%= link_to follower_count(current_user.id) %> follower
+	</span>&nbsp;&nbsp;
+	<% if follow_or_not(@user_id,current_user.id)==1 %>
+	フォローしています。
+	<% else %>
+	<%= link_to "create follow", user_follows_path(@user_id) , method: :post %>
+	<% end %>
+	<br><br>
+	<table class="table-hover">
+		<thead>
+			<tr>
+				<th>&nbsp;title</th>
+				<th>&nbsp;time</th>
+				<th>&nbsp;favorite</th>
+				<th>&nbsp;show</th>
+				<th>&nbsp;edit</th>
+				<th>&nbsp;delete</th>
+			</tr>
+		</thead>
+		<% @user_article.each do |article| %>	
+		<tbody>
+			<tr>
+				<th>&nbsp;<%= article.title %></th>
+				<th>&nbsp;<%= tokyotime(article.created_at) %></th>
+				<th>&nbsp;<%= favorite_count(article)%></th>
+				<th>&nbsp;<%= link_to "show", article_path(article) %></th>
+				<% if author_or_not(article.id,current_user.id)=="true" %>
+				<th>&nbsp;<%= link_to "edit", edit_article_path(article),method: :get -%></th>>
+				<th>&nbsp;<%= link_to "delete", article_path(article), method: :delete -%></th>
+				<% end -%>
+			</tbody>
+			<% end -%>
+		</table>
+	</div>

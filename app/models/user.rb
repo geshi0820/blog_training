@@ -16,7 +16,6 @@ class User < ActiveRecord::Base
 
 
 
-
   #usernameを必須とする
   # validates :username, presence: true
   # validates :email, presence: true, uniqueness: true

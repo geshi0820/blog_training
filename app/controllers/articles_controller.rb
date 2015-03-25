@@ -59,8 +59,6 @@ class ArticlesController < ApplicationController
 		@follows = Follow.all
 	end
 
-
-
 	private
 	def article_params
 		params[:article].permit(:title,:article,:user_id,:image, :remote_image_url)
@@ -81,7 +79,7 @@ class ArticlesController < ApplicationController
 	def set_project
 		@articles = Article.all
 		@users = User.all
-		@userid = current_user.id
+		@user_id = current_user.id
 	end
 
 	def base64_conversion(uri_str, filename = 'base64')

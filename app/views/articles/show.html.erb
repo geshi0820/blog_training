@@ -1,27 +1,42 @@
-	<p>Title：<%= @article.title%> </p>
-	Article：
-<p>
-	<% @article.article%>
-	<%= image_tag (@article.image_url) %>
-</p>
 
-<hr>
+<style type="text/css">
+	body{
+		background-color: gray;
+	}
+	h3{
+		color: green;
+	}
+	.container{
+		background-color: white;
+		border:4px solid black;
+		color: black;
+
+	}
+
+
+
+</style>
+<div class="container">
+	<h3><%= @article.title%></h3>
+	<h2>article</h2>
+	<p><% @article.article%></p>
+	
+	<%= image_tag (@article.image_url) %>
+	</p>
+
+
 
 
 <br><br>
 <h3>comment</h3>
 <% @article.comments.reverse_each do |comment| %>
 <!-- showへの接続もできている。commentsのDBもある。commentのカラムもある。前の掲示板のつくりとも全く同じ。-->
-<li>
+<p>
 	<%= comment.comment %>
 	<%= link_to "delete", article_comment_path(comment.article_id, comment.id), method: :delete %>
-	<%= link_to "edit", edit_article_comment_path(comment.article_id, comment.id) %>
-		<hr></li>
+</p>
 	<% end %>
-
-
 	<%= form_for [@article, @article.comments.build] do |f|%>
-	<%= f.label :Message %>：
 	<%= f.text_field :comment %> 
 	<%= f.hidden_field :user_id ,:value => current_user.id%>
 	<%= f.submit %>
@@ -30,3 +45,4 @@
 
 
 
+</div>

@@ -1,61 +1,35 @@
+<style type="text/css">
+</style>
 <br>
-<div class="starter-template">
-  <h1>Bootstrap starter template</h1>
-  <p class="lead">Use this document as a way to quickly start any new project.<br> All you get is this text and a mostly barebones HTML document.</p>
-</div>
-<botton class="btn btn-info"><%= link_to "Create", new_article_path %></i></botton>
 <div class="container" >
-	<table class="table" >
+	<botton class="btn .btn-yellow"><%= link_to "Create", new_article_path %></i></botton>
+	<table class="table-hover" >
 		<thead>
 			<tr>
 				<th>Name</th>
 				<th>Title</th>
 				<th>Time</th>
 				<th>Show</th>
-				<th>Follow</th>
-				<th>Favorite</th>
+				<th>Like</th>
 			</tr>
 		</thead>
 		<% @articles.reverse_each do |article| %> 
 		<tbody>	
 			<tr>
-				<th><%= @users.find(article.user_id).username %></th>
+				<th><%= link_to author_name(article),user_path(article.user_id) %></th>
 				<th><%= article.title %></th>
 				<th><%= tokyotime(article.created_at) %></th>
 				<th><%= link_to "show", article_path(article),method: :get-%> </th>
-				<th><% if @follows.where("user_id = ? and followed_id = ?", @userid , article.user_id).pluck(:user_id,:followed_id).include?([@userid,article.user_id]) %>
+			</th>
+			<% if favorite_or_not(article.id)==2 %>
+			<th><%= link_to "いいね",article_favorites_path(article),method: :post %></th>
+			<% else %>
+			<th>ファボしています。</th>
+			<% end %>
 
-					 <%= link_to image_tag("/assets/follow.jpg"), follow_path(@follows.where("user_id = ? and followed_id = ?", @userid , article.user_id).pluck(:id).at(0)),method: :delete %> 
-					<% else %>
-					 <%= link_to image_tag("/assets/unfollow.jpg"), article_follows_path(article), method: :post -%> 
-					<% end -%>
-				</th>
-				<th><% if @favorites.where("article_id = ? and user_id = ?", article.id , @userid).pluck(:article_id,:user_id).include?([article.id,@userid]) %>
-						<%= link_to image_tag("/assets/favorite_shade.jpg"), favorite_path(@favorites.where("article_id = ? and user_id = ?", article.id , @userid).pluck(:id).at(0)), method: :delete %>
-					<% else %>
-						<%= link_to image_tag("/assets/favorite_star.jpg"), article_favorites_path(article), method: :post%> 
-					<% end -%></th>
-				</tr>
-			</tbody>
-			<% end -%>
-		</table>
-	</div>
-<div class="col-xs-3 col-xs-2 sidebar">
-  <ul class="nav nav-sidebar">
-    <li data-toggle="collapse" href="#collapse-A">
-      <a href="#"><span class="caret"></span> menu A</a>
-    </li><!-- collapse を正常に動作させるためには、閉じタグが必要。閉じないと、下記のリンクをクリックしたときに、collapse が発火する -->
-    <ul id="collapse-A" class="collapse">
-      <li><a href="A-1">A-1</a><!-- 閉じタグ省略可能 -->
-      <li><a href="A-2">A-2</a><!-- 閉じタグ省略可能 -->
-      <li><a href="A-3">A-3</a><!-- 閉じタグ省略可能 -->
-    </ul>
-    <li data-toggle="collapse" href="#collapse-B"><a href="#"><span class="caret"></span> menu B</a></li><!-- collapse を動作させるために閉じタグが必要 -->
-    <ul id="collapse-B" class="collapse">
-      <li><a href="B-1">B-1</a><!-- 閉じタグ省略可能 -->
-      <li><a href="B-2">B-2</a><!-- 閉じタグ省略可能 -->
-      <li><a href="B-3">B-3</a><!-- 閉じタグ省略可能 -->
-    </ul>
-  </ul>
+		</tbody>
+		<% end -%>
+	</table>
 </div>
-
+<div>	
+</div>

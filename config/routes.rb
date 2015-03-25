@@ -1,13 +1,19 @@
 Blogapp::Application.routes.draw do
 
-
-
    devise_for :users, :controllers => {
     :omniauth_callbacks => 'users/omniauth_callbacks',
     :sessions => "users/sessions",
     :registrations => "users/registrations",
     :passwords => "users/passwords"
   }
+  resources :users, :only => [:index, :show] do 
+    resources :follows, only: [:create]
+    member do
+      get 'favorite_index'
+      get 'follow_index'  
+    end
+  end
+
   resources :favorites, only: [:destroy]
   resources :follows, only: [:destroy]
   resources :admins do
@@ -21,21 +27,7 @@ Blogapp::Application.routes.draw do
   resources :articles do 
     resources :comments
     resources :favorites, only: [:create] 
-    resources :follows, only: [:create]
-    collection do 
-      get 'profile'
-      get 'favorite_index'
-      get 'follow_index'
-    end
   end
-
-
-
-
-
-  
-  
-
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
