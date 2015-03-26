@@ -7,10 +7,10 @@ class User < ActiveRecord::Base
   :recoverable, :rememberable, :trackable, :validatable,:omniauthable,
   :authentication_keys => [:email,:username]
 
-  has_many :articles
-  has_many :comments
-  has_many :favorites
-  has_many :follows
+  has_many :articles, :dependent => :destroy
+  has_many :comments, :dependent => :destroy
+  has_many :favorites, :dependent => :destroy
+  has_many :follows, :dependent => :destroy
 
   mount_uploader :image, ImageUploader
 

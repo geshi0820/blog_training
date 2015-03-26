@@ -23,7 +23,7 @@ module UsersHelper
 			@picture = "https://graph.facebook.com/"+uid+"/picture?type=square"
 	 		p "https://graph.facebook.com/598921006908818/picture"
 	 	else
-	 		p user.image
+	 		 user.image_url(:thumb).to_s
 	 	end
 	end
 

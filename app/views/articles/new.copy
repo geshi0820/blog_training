@@ -8,8 +8,11 @@
 	<p><%= f.hidden_field :remote_image_url %></p>
 	<p><%= f.hidden_field :user_id ,:value => @user_id%></p>
 	<div>
-	<img id="cat" src="/assets/sam.jpg" alt="cat">
 		<style>
+		body{
+			background-image:  url("/assets/sky.jpg");
+			background-size: cover;
+		}
 			#mycanvas {
 				border: 10px solid #999;
 				cursor: crosshair;
@@ -54,12 +57,6 @@
 					isDrawing = true;
 					startX = e.pageX - $(this).offset().left - borderWidth;
 					startY = e.pageY - $(this).offset().top - borderWidth;
-				})
-				$('#cat').click(function(){
-					var c = document.getElementById("mycanvas");
-					var ctx = c.getContext("2d");
-					var img = document.getElementById("cat");
-					ctx.drawImage(img, 0, 0);
 				})
 				.mousemove(function(e) {
 					if (!isDrawing) return;

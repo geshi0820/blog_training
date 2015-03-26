@@ -3,14 +3,14 @@
 	<h3 style="color: #FF1493;"><%= @article.title%></h3>
 	<h2>article</h2>
 	<p><% @article.article%></p>
-	<%= image_tag (@article.image_url) %>
+	<%= image_tag @article.image_url %>
 	</p>
 
 
 
 
 <br><br>
-<h3 style="color: #FF1493;">comment</h3>
+<h3 style="color: 	#FF1493;">comment</h3>
 <% @article.comments.reverse_each do |comment| %>
 <!-- showへの接続もできている。commentsのDBもある。commentのカラムもある。前の掲示板のつくりとも全く同じ。-->
 <p>
