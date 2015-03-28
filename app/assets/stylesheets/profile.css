@@ -1,0 +1,18 @@
+table{
+	background-color: white;
+}
+thead{
+	font-size: 20px;
+	color: #FF1493;
+}
+h1{
+	font-style: bold; 
+	color: black;
+}
+.create{
+	font-size: 20px;
+	background-color: white;
+}
+span{
+	font-size: 25px;
+}

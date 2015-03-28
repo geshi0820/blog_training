@@ -6,8 +6,21 @@ Blogapp::Application.routes.draw do
   :registrations => "users/registrations",
   :passwords => "users/passwords"
 }
-resources :users, :only => [:index, :show] do 
-  resources :follows, only: [:index,:create]
+resources :users, :only => [:index, :show, :destroy] do 
+  collection do
+    get 'all_users'
+  end
+  member do
+    delete 'user_delete'
+  end
+
+  resources :follows, only: [:index,:create] do
+    collection do 
+      get 'follower'
+    end
+    
+  end
+
   resources :favorites, only: [:index]
 end
 
@@ -30,7 +43,7 @@ end
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  root 'articles#index'
+  root 'users#index'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

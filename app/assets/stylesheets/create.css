@@ -1,0 +1,20 @@
+	.label{
+		color: black;
+		font-size: 20px;
+	}
+	body{
+		color: black;
+	}
+	#mycanvas {
+		border: 3px solid black;
+		cursor: crosshair;
+		background-color: white;
+	}
+	.thumbnail {
+		border: 2px solid black;
+		margin-right: 5px;
+	}
+	h1{
+		color: black;
+
+	}

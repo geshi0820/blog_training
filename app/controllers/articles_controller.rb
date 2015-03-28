@@ -6,6 +6,7 @@ require "RMagick"
 	def index
 		@favorites = Favorite.all
 		@follows = Follow.all
+		@user_name = User.find(current_user.id).username
 	end
 
 	def show
@@ -36,7 +37,7 @@ require "RMagick"
 	def update
 		@article = Article.find(params[:id])
 		if @article.update(article_params)
-			redirect_to :back
+			redirect_to articles_path
 		else
 			render 'edit'
 		end
@@ -61,6 +62,7 @@ require "RMagick"
 		@follow_id = Follow.where("user_id=?",current_user.id)
 		@follows = Follow.all
 	end
+
 
 	private
 	def article_params

@@ -6,6 +6,7 @@ class AdminsController < ApplicationController
 		@favorites = Favorite.all
 	end
 
+
 	def delete_all_users
 		@users = User.all
 		@users.destroy_all
@@ -14,12 +15,6 @@ class AdminsController < ApplicationController
 
 	def delete_all_articles
 		Article.all.destroy_all
-		redirect_to :back
-	end
-
-	def delete_user
-		@user = User.find(params[:id])
-		@user.destroy
 		redirect_to :back
 	end
 

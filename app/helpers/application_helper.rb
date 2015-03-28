@@ -3,10 +3,15 @@ module ApplicationHelper
 		time.strftime("%Y年%m月%d日 %H:%M")
 	end
 
-	def image_30_30(image)
-		image_name = image
-		img = Magick::ImageList.new(image)
-		new_img = img.scale(0.25)
-		new_img.write(image_name)
+	def user_image(user_id)
+			user = User.find(user_id)
+			if user.uid
+				uid = user.uid.to_s
+				@picture = "https://graph.facebook.com/"+uid+"/picture?type=square"
+				"https://graph.facebook.com/598921006908818/picture"
+			else
+				user.image_url(:thumb).to_s
+			end
 	end
+
 end

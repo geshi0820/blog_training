@@ -1,6 +1,8 @@
+
 <%= stylesheet_link_tag 'article' %>
-<h1>全ての記事</h1>
-<br><br>
+<h1><%= @user.username %>のタイムライン</h1>
+<br>
+<br>
 <div class="container" >
 	<table class="table-hover" >
 		<thead>
@@ -12,26 +14,25 @@
 				<th>Like</th>
 			</tr>
 		</thead>
-		<% @articles.reverse_each do |article| %> 
 		<tbody>	
+			<% @articles.reverse_each do |article| %>
+			<% @followers.each do |f| %>
+			<% if (article.user_id == f.followed_id or article.user_id == @user.id) %>
 			<tr>
 				<th><%= image_tag(article.image_url(:thumb).to_s) %></th>
 				<th><%= link_to article.title, article_path(article) %></th>
 				<th><%= link_to article.author_name(article),user_path(article.user_id) %></th>
 				<th><%= tokyotime(article.created_at) %></th>
 			</th>
-			<% unless article.favorite_or_not(article.id,@user_id)==1 %>
+			<% unless article.favorite_or_not(article.id,@user.id)==1 %>
 			<th><%= link_to "いいね",article_favorites_path(article),method: :post %></th>
 			<% else %>
-			<th><%= link_to "ファボを外す。",favorite_path(article.favorite_id(article,@user_id)), method: :delete %></tr>
-				<% end %>
-
-			</tbody>
+			<th><%= link_to "いいねを外す",favorite_path(article.favorite_id(article,@user.id)), method: :delete %></th>
 			<% end -%>
-		</table>
-	</div>
-	<div>	
-	</div>
+			<% end -%>
+			<% end -%>  
+			<% end -%>
 
-
-
+		</tr>
+	</tbody>
+	

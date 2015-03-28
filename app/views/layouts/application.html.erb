@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <title>Blogapp</title>
-  <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
+  <%= stylesheet_link_tag   "application", media: "all", "data-turbolinks-track" => true %>
   <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
   <%= csrf_meta_tags %>
   <meta charset="utf-8">
@@ -15,16 +15,32 @@
     <% if user_signed_in? %>
     <% if current_user.admin %>
     <h3><%= link_to "Log Out", destroy_user_session_path, :method => :delete  %></h3>
-    <%= render :file => 'app/views/admins/index.html.erb'%>
+    <%= render :template => "admins/index"%>
+    <%= yield %>
     <% else %>
     <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="navbar-header">
-        <div class="navbar-brand"><%= link_to "Home", articles_path  %></div>
+        <div class="navbar-brand"><%= link_to "Home", users_path  %></div>
       </div>
       <ul class="nav navbar-nav">
-      
         <li><%= image_tag (user_image(current_user.id)) %></li>
-        <li><%= link_to current_user.username,user_path(current_user.id)%></li>
+        <li><a class="dropdown-toggle" data-toggle="dropdown">
+          <%= current_user.username %><b class="caret"></b></a>
+          <ul class="dropdown-menu">
+            <li><%= link_to "プロフィール",user_path(current_user.id) %></li>
+            <li><%= link_to "お気に入り",user_favorites_path(current_user.id) %></li>
+            <li><%= link_to "フォロー",user_follows_path(current_user.id)  %></li>
+            <li><%= link_to "フォロワー",follower_user_follows_path(current_user.id) %></li>
+          </ul>
+        </li>
+        <li><a class="dropdown-toggle" data-toggle="dropdown">Menu<b class="caret"></b></a>
+          <ul class="dropdown-menu">
+            <li><%= link_to "タイムライン",users_path %></li>
+            <li><%= link_to "全ユーザー",all_users_users_path %></li>
+            <li><%= link_to "全記事",articles_path %></li>
+          </ul>
+        </li>
+        <li><%= link_to "記事作成", new_article_path, method: :get%></li>
         <li><%= link_to 'Edit', edit_user_registration_path %></li>
         <li><%= link_to "Out", destroy_user_session_path, :method => :delete%></li>
       </ul>
@@ -33,23 +49,23 @@
     <%= yield %>
     <% end -%>
     <% else %>
-      <div class="row">
-        <div class="col-md-2" style="border: 1px "><%= link_to "新規登録", new_user_registration_path %></div>
-        <div class="col-md-2" style="border: 1px "><%= link_to "ログイン", new_user_session_path %></div>
-          <% resource_class.omniauth_providers.each do |provider| %>
-        <div class="col-md-2" style="border: 1px "><%= link_to "#{provider.to_s.titleize}ログイン", omniauth_authorize_path(resource_name, provider) %><br /></div>
-        <% end -%>
-            <%- if devise_mapping.recoverable? && controller_name != 'passwords' && controller_name != 'registrations' %>
-        <div class="col-md-2" style="border: 1px "><%= link_to "Forgot your password?", new_password_path(resource_name) %></div>
-        <% end -%>
-      </div>
-      
-      
-      <%= yield %>
-      
-      <p class="notice"><%= notice %></p>
-      <p class="alert"><%= alert %></p>
-      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <div class="row">
+      <div class="col-md-2" style="border: 1px "><%= link_to "新規登録", new_user_registration_path %></div>
+      <div class="col-md-2" style="border: 1px "><%= link_to "ログイン", new_user_session_path %></div>
+      <% resource_class.omniauth_providers.each do |provider| %>
+      <div class="col-md-2" style="border: 1px "><%= link_to "#{provider.to_s.titleize}ログイン", omniauth_authorize_path(resource_name, provider) %><br /></div>
+      <% end -%>
+      <%- if devise_mapping.recoverable? && controller_name != 'passwords' && controller_name != 'registrations' %>
+      <div class="col-md-2" style="border: 1px "><%= link_to "Forgot your password?", new_password_path(resource_name) %></div>
+      <% end -%>
+    </div>
+
+
+    <%= yield %>
+
+    <p class="notice"><%= notice %></p>
+    <p class="alert"><%= alert %></p>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <% end %>
   </body>
   </html>

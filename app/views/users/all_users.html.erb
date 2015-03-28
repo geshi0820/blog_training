@@ -1,0 +1,31 @@
+<%= stylesheet_link_tag 'user' %>
+<h1>全てのユーザー</h1><br><br>
+<div class="container">
+	<table class="table-hover">
+		<thead>
+			<tr>
+				<th>&nbsp;Image</th>
+				<th>&nbsp;Name</th>
+				<th>&nbsp;Follow</th>
+				<th>&nbsp;Follower</th>
+				<th>&nbsp;Articles</th>
+				<th>&nbsp;unfollow</th>
+			</tr>
+		</thead>
+		<% @users.each do |f| %>
+		<tbody>
+			<tr>
+				<th><%= image_tag (user_image(f.id)) %></th>
+				<th><%= link_to f.follow_name(f.id) ,user_path(f.id) %></th>
+				<th><%= f.user_follow_count(f.id) %></th>
+				<th><%= f.user_follower_count(f.id) %></th>
+				<th><%= f.user_article_count(f.id) %></th>
+				<% if f.follow_or_not(f.id,current_user.id)==1 %>
+				<th><%= link_to "delete follow", follow_path(f.follow_id(f.id, @user_id)) ,method: :delete %></th>
+				<% else %>
+				<th><%= link_to "create follow", user_follows_path(f.id) , method: :post %></th>
+				<% end %>
+				<% end -%>
+			</tbody>
+		</table>
+	</div>
