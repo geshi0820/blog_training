@@ -1,0 +1,63 @@
+<%= stylesheet_link_tag 'user' %>
+<%= link_to "全記事削除", delete_all_users_users_path %> | 
+<%= link_to "全ユーザー削除",delete_all_articles_users_path%>
+<br><br>
+<h1>管理者画面</h1>
+<div class="container" style="padding:20px 0">
+<br><h3>ユーザー一覧</h3>
+	<table class="table">
+		<thead>
+			<tr>
+				<th>user</th>
+				<th>email</th>
+				<th>provider</th>
+				<th>articles</th>
+				<th>follows</th>
+				<th>followers</th>
+				<th>time</th>
+				<th><img src="/assets/drop.jpg" alt="delete" width="30" height="30"></th>
+			</tr>
+		</thead>
+		<% @users.each do |user| %> 
+		<% unless user.admin %>
+		<tbody>	
+			<ul><tr>
+				<td><%=user.username%></td>
+				<td><%=user.email%></td>
+				<td><%=user.provider%></td>
+				<td><%=user.user_article_count(user.id) %></td>
+				<td><%=user.user_follow_count(user.id)%></td>
+				<td><%=user.user_follower_count(user.id)%></td>
+				<td><%=tokyotime(user.created_at) %></td>
+				<td><%= link_to "drop", user_delete_user_path(user.id) ,method: :delete %></td>
+			</tr></ul>
+		</tbody>
+		<% end -%>
+		<% end -%>
+	</table>
+</div>
+<div class="container" style="padding:20px 0">
+<br><h3>&nbsp;記事一覧</h3>
+	<table class="table">
+		<thead>
+			<tr>
+				<th>title</th>
+				<th>name</th>
+				<th>time</th>
+				<th>favorites</th>
+				<th><img src="/assets/drop.jpg" alt="delete" width="30" height="30"></th>
+			</tr>
+		</thead>
+		<% @articles.each do |article| %> 
+		<tbody>	
+			<ul><tr>
+				<td><%=article.title%></td>
+				<td><%=article.id%></td>
+				<td><%=tokyotime(article.created_at)%></td>
+				<td><%=article.article_favorite_count(article.id)%></td>
+				<td><%= link_to "drop", article_path(article), method: :delete -%></td>
+			</tr></ul>
+		</tbody>
+		<% end -%>
+	</table>
+</div>

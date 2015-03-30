@@ -43,8 +43,11 @@ class User < ActiveRecord::Base
         password: Devise.friendly_token[0, 20]
         )
     end
-
     user
+  end
+
+  def follower_articles(user_id) 
+
   end
 
   def self.user_favorite_count(user_id)
@@ -75,7 +78,21 @@ class User < ActiveRecord::Base
     p Article.where(user_id: user_id).count
   end
 
+  def article_favorite_count(article_id)
+    p Favorite.where("article_id=?",article_id).count
+  end
+
+  def favorite_or_not(article_id,user_id)
+    if Favorite.where("user_id=? and article_id=?",user_id,article_id).pluck(:user_id,:article_id).include?([user_id,article_id])
+      p 1
+    end
+  end
   def author_name(article_id)
+    user_id = Article.find(article_id).user_id
+    User.find(user_id).username
+  end
+
+  def self.author_name(article_id)
     user_id = Article.find(article_id).user_id
     User.find(user_id).username
   end

@@ -1,6 +1,5 @@
 
 <%= stylesheet_link_tag 'article' %>
-<h1><%= @user.username %>のタイムライン</h1>
 <br>
 <br>
 <div class="container" >
@@ -14,25 +13,17 @@
 				<th>Like</th>
 			</tr>
 		</thead>
+		<% if @id %>
+		<% @id.each do |i| %>
 		<tbody>	
-			<% @articles.reverse_each do |article| %>
-			<% @followers.each do |f| %>
-			<% if (article.user_id == f.followed_id or article.user_id == @user.id) %>
 			<tr>
-				<th><%= image_tag(article.image_url(:thumb).to_s) %></th>
-				<th><%= link_to article.title, article_path(article) %></th>
-				<th><%= link_to article.author_name(article),user_path(article.user_id) %></th>
-				<th><%= tokyotime(article.created_at) %></th>
-			</th>
-			<% unless article.favorite_or_not(article.id,@user.id)==1 %>
-			<th><%= link_to "いいね",article_favorites_path(article),method: :post %></th>
-			<% else %>
-			<th><%= link_to "いいねを外す",favorite_path(article.favorite_id(article,@user.id)), method: :delete %></th>
-			<% end -%>
-			<% end -%>
-			<% end -%>  
-			<% end -%>
+				<td><%= image_tag @articles.find(i).image_url(:thumb).to_s %></td>
+				<td><%= @articles.find(i).title %></td>
+				<td><%= @users.author_name(i) %></td>
+				<td><%= tokyotime(@articles.find(i).created_at)%></td>
+				<td><%= link_to "いいね",article_favorites_path(i),method: :post %></td>
+			</tr>
+		</tbody>
+		<% end -%>
+		<% end -%>
 
-		</tr>
-	</tbody>
-	

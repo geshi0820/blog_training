@@ -15,7 +15,7 @@
     <% if user_signed_in? %>
     <% if current_user.admin %>
     <h3><%= link_to "Log Out", destroy_user_session_path, :method => :delete  %></h3>
-    <%= render :template => "admins/index"%>
+      <meta http-equiv="refresh" content="3; URL=/users/admin">
     <%= yield %>
     <% else %>
     <nav class="navbar navbar-inverse navbar-fixed-top">

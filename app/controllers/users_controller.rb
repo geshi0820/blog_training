@@ -1,12 +1,14 @@
 class UsersController < ApplicationController
 
 	def index		
-		@user = User.find(current_user.id)
-		@followers = Follow.where(user_id: current_user.id)
-		@articles = Article.all	
+		@user = current_user
 		@users = User.all
-		@follows = Follow.all
-		@favorites = Favorite.all
+		Follow.where(user_id: current_user.id).each do |f|
+			@id = Article.where(user_id: f.followed_id).pluck(:id)
+			@id += Article.where(user_id: @user.id).pluck(:id)
+			@id = @id.reverse
+			@articles = Article.all
+		end
 	end
 
 	def show
@@ -38,6 +40,28 @@ class UsersController < ApplicationController
 		@user.destroy
 		redirect_to users_path
 	end
+
+	def admin
+		@users = User.all
+		@articles = Article.all
+	end
+
+	def delete_all_users
+		@users = User.all
+		@users.destroy_all
+		redirect_to :back 
+	end
+
+	def delete_all_articles
+		Article.all.destroy_all
+		redirect_to :back
+	end
+
+	private
+
+
+
+
 
 
 end

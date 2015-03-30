@@ -24,7 +24,7 @@ require "RMagick"
 		tmp_article_params[:remote_image_url] = nil
 		article = Article.new(tmp_article_params)
 		if article.save
-			redirect_to articles_path
+			redirect_to root_url
 		else
 			redirect_to :back
 		end

@@ -25,14 +25,18 @@
       </p>
 
       <p class="field">
-        <input for="user_image" name="user[image]" type="file" class="validate[required,custom[onlyLetter],length[0,100]] feedback-input" placeholder="Image" id="user_image"/>
-      </p>
-      <div class="submit">
-        <input type="submit" value="CHANGE" id="button-blue"/>
-        <div class="ease"></div>
+       <div class="form__block__field__label">
+        <%= f.label :image, 'プロフィール画像' %>
+        <%= f.file_field :image %>
+        <%= f.hidden_field :image_cache %>
       </div>
-    </form>
-  </div>
-  <% end %>
-  <%= link_to current_user.username+"   Cancel my account", user_delete_user_path(current_user.id), data: { confirm: "Are you sure?" }, method: :delete %>
+    </p>
+    <div class="submit">
+      <input type="submit" value="CHANGE" id="button-blue"/>
+      <div class="ease"></div>
+    </div>
+  </form>
+</div>
+<% end %>
+<%= link_to current_user.username+"   Cancel my account", user_delete_user_path(current_user.id), data: { confirm: "Are you sure?" }, method: :delete %>
 </div>
