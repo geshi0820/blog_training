@@ -15,14 +15,14 @@
 		<% @articles.reverse_each do |article| %> 
 		<tbody>	
 			<tr>
-				<th><%= image_tag(article.image_url(:thumb).to_s) %></th>
-				<th><%= link_to article.title, article_path(article) %></th>
-				<th><%= link_to article.author_name(article),user_path(article.user_id) %></th>
-				<th><%= tokyotime(article.created_at) %></th>
-			<% unless article.favorite_or_not(article.id,@user_id)==1 %>
-			<th><%= link_to "いいね",article_favorites_path(article),method: :post %></th>
+				<td><%= image_tag(article.image_url(:thumb).to_s) %></td>
+				<td><%= link_to article.title, article_path(article) %></td>
+				<td><%= link_to article.author_name(article),user_path(article.user_id) %></td>
+				<td><%= tokyotime(article.created_at) %></td>
+			<% unless article.favorite_or_not(article.id,current_user.id)==1 %>
+			<td><h4><%= link_to "♡",article_favorites_path(article),method: :post %></h4></td>
 			<% else %>
-			<th><%= link_to "ファボを外す。",favorite_path(article.favorite_id(article,@user_id)), method: :delete %></tr>
+			<td><h4><%= link_to "♥",favorite_path(article.favorite_id(article,current_user.id)), method: :delete %></h4></td></tr>
 				<% end %>
 
 			</tbody>

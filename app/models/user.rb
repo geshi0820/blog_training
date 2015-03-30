@@ -13,14 +13,6 @@ class User < ActiveRecord::Base
   has_many :follows, :dependent => :destroy
 
   mount_uploader :image, ImageUploader
-
-
-
-  #usernameを必須とする
-  # validates :username, presence: true
-  # validates :email, presence: true, uniqueness: true
-
-
   #usernameを利用してログインするようにオーバーライド
   def self.find_first_by_auth_conditions(warden_conditions)
     conditions = warden_conditions.dup
@@ -46,56 +38,35 @@ class User < ActiveRecord::Base
     user
   end
 
-  def follower_articles(user_id) 
-
-  end
-
-  def self.user_favorite_count(user_id)
-    p Favorite.where(user_id: user_id).count
-  end
-
-  def self.user_follow_count(user_id)
-    p Follow.where("user_id=?",user_id).count
-  end
-
-  def self.user_follower_count(user_id)
-    p Follow.where("followed_id=?",user_id).count
-  end
-
-  def follow_name(followed_id)
-    p User.find(followed_id).username
+  def user_favorite_count(user_id)
+    Favorite.where(user_id: user_id).count
   end
 
   def user_follow_count(user_id)
-    p Follow.where("user_id=?",user_id).count
+    Follow.where("user_id=?",user_id).count
   end
 
   def user_follower_count(user_id)
-    p Follow.where("followed_id=?",user_id).count
+    Follow.where("followed_id=?",user_id).count
   end
 
   def user_article_count(user_id)
-    p Article.where(user_id: user_id).count
+    Article.where(user_id: user_id).count
   end
 
-  def article_favorite_count(article_id)
-    p Favorite.where("article_id=?",article_id).count
+  def follow_name(followed_id)
+    User.find(followed_id).username
+  end
+
+  def follow_id(followed_id,user_id)
+    Follow.where(user_id: user_id, followed_id: followed_id).first.id
   end
 
   def favorite_or_not(article_id,user_id)
     if Favorite.where("user_id=? and article_id=?",user_id,article_id).pluck(:user_id,:article_id).include?([user_id,article_id])
-      p 1
+      1
     end
-  end
-  def author_name(article_id)
-    user_id = Article.find(article_id).user_id
-    User.find(user_id).username
-  end
-
-  def self.author_name(article_id)
-    user_id = Article.find(article_id).user_id
-    User.find(user_id).username
-  end
+  end  
 
   def follow_or_not(followed_id,user_id)
     if Follow.where("user_id = ? and followed_id = ?", user_id, followed_id).pluck(:user_id,:followed_id).include?([user_id,followed_id])
@@ -105,26 +76,12 @@ class User < ActiveRecord::Base
     end
   end
 
-  def follow_id(followed_id,user_id)
-    Follow.where(user_id: user_id, followed_id: followed_id).first.id
+  def article_favorite_count(article_id)
+    Favorite.where("article_id=?",article_id).count
   end
 
-  def self.follow_or_not(followed_id,user_id)
-    if Follow.where("user_id = ? and followed_id = ?", user_id, followed_id).pluck(:user_id,:followed_id).include?([user_id,followed_id])
-      p 1
-    else
-      p 0
-    end
-  end
-
-  def self.follow_id(followed_id,user_id)
-    Follow.where(user_id: user_id, followed_id: followed_id).first.id
-  end
-
-  private
-  def self.get_email(auth)
-    email = auth.info.email
-    email = "#{auth.provider}-#{auth.uid}@example.com" if email.blank?
-    email
+  def author_name(article_id)
+    user_id = Article.find(article_id).user_id
+    User.find(user_id).username
   end
 end

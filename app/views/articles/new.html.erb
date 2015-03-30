@@ -6,9 +6,9 @@
 	<p class="label"><%= f.label :title %></p>
 	<p class="box"><%= f.text_field :title, :value => "title"%></p><br>
 	<p class="label"><%= f.label :content %></p>
-	<p class="box"><%= f.text_field :article %></p>
+	<p class="box"><%= f.text_area :article %></p>
 	<p><%= f.hidden_field :remote_image_url %></p>
-	<p><%= f.hidden_field :user_id ,:value => @user_id%></p>
+	<p><%= f.hidden_field :user_id ,:value => current_user.id%></p>
 	<div>
 		<input type="file" id="file"><br>
 		<p>
@@ -24,8 +24,8 @@
 			</select>
 			<p><input type="submit" id="save" value="登録する"></p>
 		</p>
-		<img src="" id="back_image" style="display:none;" width="300" height="300" >
-		<canvas  id="mycanvas" width="300" height="300">
+		<img src="" id="back_image" style="display:none;" width="500" height="500" >
+		<canvas  id="mycanvas" width="500" height="500">
 			Canvasに対応したブラウザを用意してください。
 		</canvas>
 		<div id="gallery"></div> 

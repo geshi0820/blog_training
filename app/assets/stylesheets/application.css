@@ -1,3 +1,201 @@
+/* mycss.css */
+.social-area-syncer{
+  background: #F5F1E9;  /* 背景色 */
+  padding: 1.5em 0;
+}
+
+/******************************
+ [ul]要素
+******************************/
+
+/* デスクトップ */
+@media screen and (min-width:480px){
+
+  ul.social-button-syncer{
+    width: 410px;
+  }
+
+}
+
+/******************************
+ [li]要素
+******************************/
+ul.social-button-syncer li{
+  overflow: hidden;
+  float: left;
+  text-align: center;
+  height: 71px;
+  margin: 0 8px;
+  padding:0;
+}
+
+/******************************
+ 各種ボタン
+******************************/
+/* [Facebook] */
+.sc-fb{
+  width: 69px;
+}
+
+.fb-share-button{
+  width: 100px;
+  float: right;
+  margin-right: 100px;
+  margin-top: 15px;
+}
+
+
+
+html {
+    background-image: url("back.jpg");
+    height: 100%;
+}
+
+body {
+    height: 100%;
+    font-family: "Lucida Grande", "Lucida Sans Unicode", "Hiragino Kaku Gothic Pro", "ヒラギノ角ゴ Pro W3", "メイリオ", "ＭＳ Ｐゴシック", Helvetica, Arial, Verdana, sans-serif;
+    font-size: 16px;
+}
+
+body > .container {
+    height: auto;
+}
+#container {
+    min-height: 100%;
+    height: 100%;
+    width: 600px;
+    margin: 100px 100px 0px 300px; 
+    background-color: black;
+    background: rgba(0, 0, 0, 0.4);
+    box-shadow: 0 0 3px rgba(0,0,0,0.5);
+}
+
+.favorite{
+  margin-bottom: 20px;
+  margin-top: 20px;
+  margin-right: 20px;
+  float: right;
+}
+
+.title{
+  margin-bottom: 20px;
+  margin-top: 20px;
+  margin-left: 20px;
+  float: left;
+  color: #222222;
+}
+.article{
+  margin-top: 20px;
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-bottom: 20px;
+  color: #222222;
+
+}
+
+.item{
+  text-align: center;
+  padding: 10px 10px 30px; /*上 左右 下のパディング */
+  margin: 2px;
+
+}
+
+div.item>img{
+  padding: 5px;
+  background-color: white;
+  border: 1px solid #ccc;
+
+}
+
+.profile {
+    background: red;
+    color: white;
+    font-size: 10px;
+    padding: 2px 4px 3px;
+    position: absolute;
+    top: -5px;
+    right: -5px;
+}
+
+#header {
+}
+
+#menu {
+    margin-bottom: 15px;
+    overflow: hidden;
+}
+
+#main {
+    overflow: hidden;
+    margin-bottom: 15px;
+}
+
+#contents {
+    float: left;
+    width: 100%;
+    background-color: white;
+    border-top-right-radius: 5%;
+    border: gray solid 1px;
+    margin-bottom: 20px;
+}
+
+
+#sidebar {
+    float: right;
+    width: 180px;
+}
+
+#footer {
+    font-size: 12px;
+    color: #ccc;
+    text-align: center;
+    border-top: 1px solid #ccc;
+    padding: 10px 0 20px;
+}
+
+#menu ul>li {
+    float: left;
+    width: 100px;
+    font-size: 13px;
+    text-align: center;
+    padding: 4px;
+    background: #ccc;
+    margin-right: 10px;
+    border-radius: 4px;
+    text-shadow: 0 1px 0 #fff;
+}
+
+#menu ul>li:hover {
+    background: #ddd;
+}
+
+#menu ul>li>a {
+    text-decoration: none;
+    display: block;
+}
+
+.row{
+  background-color: white;
+}
+h2, h3 {
+    font-weight: bold;
+    font-size: 25px;
+    margin: 20px 0px 0px 20px;
+}
+
+
+h3 {
+    border-bottom: 1px solid #ccc;
+    padding: 3px 0;
+    margin-bottom: 10px;
+}
+
+p {
+    margin-bottom: 14px;
+}
+
+
+
 /*/*!
  * Bootstrap v3.3.4 (http://getbootstrap.com)
  * Copyright 2011-2015 Twitter, Inc.
@@ -6,9 +204,6 @@
 
 /*! normalize.css v3.0.2 | MIT License | git.io/normalize */
 html {
-  font-family: "Hiragino Kaku Gothic Pro";
-  -webkit-text-size-adjust: 100%;
-      -ms-text-size-adjust: 100%;
 }
 body {
   margin: 0;
@@ -62,7 +257,6 @@ dfn {
 h1 {
   margin: .67em 0;
   font-size: 2em;
-  
 }
 mark {
   color: #000;
@@ -73,7 +267,6 @@ small {
 }
 sub,
 sup {
-  position: relative;
   font-size: 75%;
   line-height: 0;
   vertical-align: baseline;
@@ -187,6 +380,7 @@ table {
 td,
 th {
   padding: 0;
+  margin-left: 20px;
 }
 /*! Source: https://github.com/h5bp/html5-boilerplate/blob/master/src/css/main.css */
 @media print {
@@ -201,7 +395,7 @@ th {
   }
   a,
   a:visited {
-    text-decoration: underline;
+    text-decoration: none;
   }
   a[href]:after {
     content: " (" attr(href) ")";
@@ -244,6 +438,8 @@ th {
   }
   .navbar {
     display: none;
+    color: white;
+
   }
   .btn > .caret,
   .dropup > .btn > .caret {
@@ -1081,16 +1277,6 @@ th {
           box-sizing: border-box;
 }
 html {
-  font-size: 10px;
-
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-}
-body {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 15px;
-  line-height: 1.42857143;
-  color: #333;
-  background-color: #fff;
 }
 
 input,
@@ -1108,7 +1294,7 @@ a {
 a:hover,
 a:focus {
   color: #23527c;
-  text-decoration: underline;
+  text-decoration: none;
 }
 a:focus {
   outline: thin dotted;
@@ -1408,6 +1594,7 @@ pre code {
   min-height: 1px;
   padding-right: 15px;
   padding-left: 15px;
+
 }
 .col-xs-1, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9, .col-xs-10, .col-xs-11, .col-xs-12 {
   float: left;
@@ -3136,7 +3323,7 @@ fieldset[disabled] .btn-link {
 .btn-link:hover,
 .btn-link:focus {
   color: #23527c;
-  text-decoration: underline;
+  text-decoration: none;
   background-color: transparent;
 }
 .btn-link[disabled]:hover,
@@ -4612,20 +4799,7 @@ a.label:focus {
 .label-danger[href]:focus {
   background-color: #c9302c;
 }
-.badge {
-  display: inline-block;
-  min-width: 10px;
-  padding: 3px 7px;
-  font-size: 12px;
-  font-weight: bold;
-  line-height: 1;
-  color: #fff;
-  text-align: center;
-  white-space: nowrap;
-  vertical-align: baseline;
-  background-color: #777;
-  border-radius: 10px;
-}
+
 .badge:empty {
   display: none;
 }
@@ -6590,20 +6764,19 @@ p {
 }
 
 a {
-  -webkit-transition: color 0.1s linear;
-  -moz-transition: color 0.1s linear;
-  transition: color 0.1s linear;
-  color: #ced9e0;
+  color: gray;
   text-decoration: none;
 }
 a:hover {
   color: #9fb5c2;
   border-color: #9fb5c2;
+  text-decoration: none;
 }
 a:active, a:focus {
   color: #9fb5c2;
   border-color: #9fb5c2;
   outline: none;
+  text-decoration: none;
 }
 
 header {
@@ -6618,11 +6791,6 @@ hr {
   margin: 1.5em 0;
 }
 
-img,
-picture {
-  margin: 0;
-  max-width: 100%;
-}
 
 blockquote {
   border-left: 2px solid #ddd;

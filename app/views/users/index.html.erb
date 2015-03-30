@@ -1,29 +1,30 @@
 
-<%= stylesheet_link_tag 'article' %>
-<br>
-<br>
-<div class="container" >
-	<table class="table-hover" >
-		<thead>
-			<tr>
-				<th>Image</th>
-				<th>Title</th>
-				<th>Author</th>
-				<th>Time</th>
-				<th>Like</th>
-			</tr>
-		</thead>
-		<% if @id %>
-		<% @id.each do |i| %>
-		<tbody>	
-			<tr>
-				<td><%= image_tag @articles.find(i).image_url(:thumb).to_s %></td>
-				<td><%= @articles.find(i).title %></td>
-				<td><%= @users.author_name(i) %></td>
-				<td><%= tokyotime(@articles.find(i).created_at)%></td>
-				<td><%= link_to "いいね",article_favorites_path(i),method: :post %></td>
-			</tr>
-		</tbody>
-		<% end -%>
-		<% end -%>
+<div id="container">
+	<div id="header"><h1></h1></div>
+	<div id="main">
+			<% if @id %>
+			<% @id.each do |i| %>
+			<div id="contents">
+				<div class="profile">hiroki</div>
+				<div class="title"><%= image_tag user_image(@articles.find(i).user_id) %></div>
+				<h2 class="title"><%= @articles.find(i).title %></h2>
+				<% unless current_user.favorite_or_not(i,current_user.id)  %>
+				<h3 class="favorite"><%= link_to "♡",article_favorites_path(i),method: :post %></h3>
+				<% else %>
+				<h3 class="favorite"><%= link_to "♥",favorite_path(@articles.find(i).favorite_id(i,current_user.id)), method: :delete %></h3>
+				<% end -%>
+				<h3 class="favorite"><%= link_to "show",article_path(i)%></h3>
+					<br><br><br><br><br>
+					<div class="item" ><%= image_tag @articles.find(i).image_url%></div>
+					<div class="article"><%= @articles.find(i).article %></div>
+				</div><!-- #contents -->
+				<% end -%>
+				<% end -%>
+			</div>
+		</div><!-- #main -->
+		<div id="footer">Copyright 2015, Blogapp.com</div>
+		<a href="">TOPに戻る。</a>
+	</div><!-- #container -->
 
+	<br>
+	<br>

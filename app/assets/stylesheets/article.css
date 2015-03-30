@@ -1,5 +1,5 @@
 table{
-	background-color: white;
+	background: rgba(255, 255, 255, 0.1);
 }
 thead{
 	font-size: 20px;

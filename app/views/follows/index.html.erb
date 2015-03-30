@@ -1,5 +1,5 @@
 <%= stylesheet_link_tag 'user' %>
-<h1><%= @user_name %>がフォローしている人</h1><br>
+<h1><%= @user.username %>がフォローしている人</h1><br>
 <br>
 <div class="container">
 	<table class="table-hover">
@@ -13,18 +13,18 @@
 				<th>&nbsp;unfollow</th>
 			</tr>
 		</thead>
-		<% @follows.each do |f| %>
 		<tbody>
+		<% @follows.each do |f| %>
 			<tr>
-				<th><%= image_tag (user_image(f.followed_id)) %></th>
-				<th><%= link_to f.follow_name(f.followed_id) ,user_path(f.user_id) %></th>
-				<th><%= f.user_follow_count(f.user_id) %></th>
-				<th><%= f.user_follower_count(f.user_id) %></th>
-				<th><%= f.user_article_count(f.followed_id) %></th>
-				<% if f.follow_or_not(f.followed_id,@current_user_id)==1 %>
-				<th><%= link_to "delete follow", follow_path(f.follow_id(f.followed_id,@user_id)) ,method: :delete %></th>
+				<td><%= image_tag (user_image(f.followed_id)) %></td>
+				<td><%= link_to f.follow_name(f.followed_id) ,user_path(f.user_id) %></td>
+				<td><%= f.user_follow_count(f.user_id) %></td>
+				<td><%= f.user_follower_count(f.user_id) %></td>
+				<td><%= f.user_article_count(f.followed_id) %></td>
+				<% if f.follow_or_not(f.followed_id,current_user.id)==1 %>
+				<td><%= link_to "unfollow", follow_path(f.follow_id(f.followed_id,current_user.id)),method: :delete %></td>
 				<% else %>
-				<th><%= link_to "create follow", user_follows_path(f.followed_id) , method: :post %></th>
+				<td><%= link_to "create follow", user_follows_path(f.followed_id) , method: :post %></td>
 				<% end %>
 				<% end -%>
 			</tbody>

@@ -13,11 +13,11 @@
 		<% @articles.reverse_each do |article| %> 
 		<tbody>	
 			<tr>
-				<th><%=article.title %></th>
-				<th><%= article.title %></th>
-				<th><%= tokyotime(article.created_at) %></th>
-				<th><%= link_to "show", article_path(article),method: :get-%></th>
-				<th><%= link_to "delete", article_path(article), method: :delete -%></th>
+				<td><%=article.title %></td>
+				<td><%= article.title %></td>
+				<td><%= tokyotime(article.created_at) %></td>
+				<td><%= link_to "show", article_path(article),method: :get-%></td>
+				<td><%= link_to "delete", article_path(article), method: :delete -%></td>
 			</tr>
 		</tbody>
 		<% end -%>

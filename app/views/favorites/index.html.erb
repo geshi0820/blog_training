@@ -1,5 +1,5 @@
 <%= stylesheet_link_tag 'profile' %>
-<h1><%= @user_name %>のお気に入り</h1><br><br>
+<h1><%= @user.username %>のお気に入り</h1><br><br>
 <div class="container">
 	<table class="table-hover">
 		<thead>
@@ -7,22 +7,16 @@
 				<th>&nbsp;title</th>
 				<th>&nbsp;author</th>
 				<th>&nbsp;favorite</th>
-				<th>&nbsp;show</th>
 				<th>&nbsp;unfavorite</th>
 			</tr>
 		</thead>
 		<% @favorite_users.each do |f| %>	
 		<tbody>
 			<tr>
-				<th><%= link_to f.article_favorite(f.article_id).title, article_path(f.article_id) %></th>
-				<th><%= link_to image_tag(user_image(f.author_id(f.article_id))) ,user_path(f.author_id(f.article_id)) %></th>
-				<th><%= f.article_favorite_count(f.article_id) %></th>			
-				<th><%= link_to "show", article_path(f.article_id) %></th>
-				<% unless f.favorite_or_not(f.article_id,current_user.id)==1 %>
-				<th><%= link_to "いいね",article_favorites_path(f.article_id),method: :post %></th>
-				<% else %>
-				<th><%= link_to "ファボを外す。",favorite_path(f.favorite_id(f.article_id,@user_id)), method: :delete %></tr>
-					<% end %>
+				<td><%= link_to f.article_favorite(f.article_id).title, article_path(f.article_id) %></td>
+				<td><%= link_to image_tag(user_image(f.author_id(f.article_id))) ,user_path(f.author_id(f.article_id)) %></td>
+				<td><%= f.article_favorite_count(f.article_id) %></td>			
+				<td><h4><%= link_to "♥",favorite_path(f.favorite_id(f.article_id,@user.id)), method: :delete %></h4></tr>
 					<% end -%>
 				</tbody>
 			</table>

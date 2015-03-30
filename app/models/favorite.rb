@@ -4,11 +4,11 @@ class Favorite < ActiveRecord::Base
 	def article_favorite(article_id)
 		Article.where(id: article_id).first
 	end	
+	
 	def author_id(article_id)
 		user_id = Article.find(article_id).user_id
 	end
 
-	
 	def article_favorite_count(article_id)
 		p Favorite.where("article_id=?",article_id).count
 	end
@@ -19,7 +19,7 @@ class Favorite < ActiveRecord::Base
 		end
 	end
 
-	    def favorite_id(article_id,user_id)
-        Favorite.where(user_id: user_id, article_id: article_id).first.id
-    end
+	def favorite_id(article_id,user_id)
+		Favorite.where(user_id: user_id, article_id: article_id).first.id
+	end
 end

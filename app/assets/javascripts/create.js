@@ -19,7 +19,7 @@
 					var c = document.getElementById("mycanvas");
 					var ctx = c.getContext("2d");
 					var img = document.getElementById("back_image");
-					ctx.drawImage(img, 0, 0,300,300);
+					ctx.drawImage(img, 0, 0,500,500);
 				})
 			$(function() {
 				var canvas = document.getElementById('mycanvas');

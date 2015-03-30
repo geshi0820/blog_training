@@ -9,8 +9,8 @@
 		<% @follow_id.each do |follow| %>
 		<tbody>	
 			<tr>
-				<th><%= @users.find(follow.followed_id).username %></th>
-				<th><%= link_to "unfollow", follow_path(@follows.where("user_id = ? and followed_id = ?", @userid , follow.user_id).pluck(:id).at(0)),method: :delete %></th>
+				<td><%= @users.find(follow.followed_id).username %></td>
+				<td><%= link_to "unfollow", follow_path(follow.follow_id(follow.followed_id, current_user.id),method: :delete %></td>
 			</tr>
 		</tbody>
 		<% end -%>
