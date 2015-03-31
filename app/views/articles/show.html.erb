@@ -1,33 +1,26 @@
-
-<div class="container">
-	<h1></h1>
-	<%= stylesheet_link_tag "show" %>
-	<% unless @article.favorite_or_not(@article.id,current_user.id)==1 %>
-	<h1><%= @article.title%>&nbsp;&nbsp;<%= link_to "♡",article_favorites_path(@article),method: :post %></h1>
-	<% else %>
-	<h1><%= @article.title%>&nbsp;&nbsp;<%= link_to "♥",favorite_path(@article.favorite_id(@article,current_user.id)), method: :delete %></h1>
-	<% end -%>
-	<p><%= @article.article%></p>
-	<div class="item"><%= image_tag @article.image_url %></div>
-	
-	<br><br>
-	<h3>comment</h3>
-
-	<div>
-		<% @article.comments.reverse_each do |comment| %>
-		<p>
-			<%= comment.comment %>
-			<%= link_to "delete", article_comment_path(comment.article_id, comment.id), method: :delete %>
-		</p><br><br>
-		<% end %>
-		<div class="comment">
+<div class="container" style="text-align: center">
+	<h1><%= @article.title%>&nbsp;&nbsp;
+		<% unless @article.favorites.find_by_user_id(current_user) %>
+		<%= link_to "♡",article_favorites_path(@article),method: :post %></h1>
+		<% else %> 
+		<%= link_to "♥",favorite_path(@article.favorites.find_by_user_id(current_user)), method: :delete %></h1>
+		<% end -%>
+		<p><%= @article.article%></p>
+		<div class="item"><%= image_tag @article.image_url %></div>
+		<br><br>
+		<div>
+			<h3>comment</h3>
+			<% @article.comments.reverse_each do |comment| %>
+			<p>
+				<%= comment.comment %>
+				<%= link_to "delete", article_comment_path(comment.article_id, comment), method: :delete %>
+			</p>
+			<% end %>
 			<%= form_for [@article, @article.comments.build] do |f|%>
 			<%= f.text_field :comment %> 
 			<%= f.hidden_field :user_id ,:value => current_user.id%>
 			<%= f.submit %>
 			<% end -%>
-			<br><br><br><br><br><br><br><br>
 		</div>
-
-
+	</div>
 

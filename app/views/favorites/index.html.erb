@@ -1,23 +1,25 @@
-<%= stylesheet_link_tag 'profile' %>
 <h1><%= @user.username %>のお気に入り</h1><br><br>
 <div class="container">
 	<table class="table-hover">
 		<thead>
 			<tr>
-				<th>&nbsp;title</th>
-				<th>&nbsp;author</th>
-				<th>&nbsp;favorite</th>
-				<th>&nbsp;unfavorite</th>
+				<th>Title</th>
+				<th>Author</th>
+				<th>Favorite</th>
+				<th>Unfavorite</th>
 			</tr>
 		</thead>
 		<% @favorite_users.each do |f| %>	
 		<tbody>
 			<tr>
-				<td><%= link_to f.article_favorite(f.article_id).title, article_path(f.article_id) %></td>
-				<td><%= link_to image_tag(user_image(f.author_id(f.article_id))) ,user_path(f.author_id(f.article_id)) %></td>
-				<td><%= f.article_favorite_count(f.article_id) %></td>			
-				<td><h4><%= link_to "♥",favorite_path(f.favorite_id(f.article_id,@user.id)), method: :delete %></h4></tr>
-					<% end -%>
-				</tbody>
-			</table>
-		</div>
+				<td><%= link_to @articles.find(f.article_id).title , article_path(f.article_id) %></td>
+				<td><%= link_to image_tag(user_image(@articles.find(f.article_id).user_id)) ,user_path(@articles.find(f.article_id).user_id) %></td>
+				<td><%= Favorite.where(article_id: f.article_id).count %></td>	
+				<td><h4><%= link_to "♥",favorite_path(f), method: :delete %></h4></td>
+			</tr>
+			<% end -%>
+		</tbody>
+	</table>
+</div>
+
+

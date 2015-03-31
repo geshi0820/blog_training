@@ -1,4 +1,3 @@
-<%= stylesheet_link_tag 'article' %>
 <h1>全ての記事</h1>
 <br><br>
 <div class="container" >
@@ -12,25 +11,23 @@
 				<th>Like</th>
 			</tr>
 		</thead>
-		<% @articles.reverse_each do |article| %> 
+		<% @articles.each do |article| %> 
 		<tbody>	
 			<tr>
 				<td><%= image_tag(article.image_url(:thumb).to_s) %></td>
 				<td><%= link_to article.title, article_path(article) %></td>
-				<td><%= link_to article.author_name(article),user_path(article.user_id) %></td>
+				<td><%= link_to article.user.username,user_path(article.user_id) %></td>
 				<td><%= tokyotime(article.created_at) %></td>
-			<% unless article.favorite_or_not(article.id,current_user.id)==1 %>
-			<td><h4><%= link_to "♡",article_favorites_path(article),method: :post %></h4></td>
-			<% else %>
-			<td><h4><%= link_to "♥",favorite_path(article.favorite_id(article,current_user.id)), method: :delete %></h4></td></tr>
-				<% end %>
-
-			</tbody>
-			<% end -%>
-		</table>
-	</div>
-	<div>	
-	</div>
+				<% if article.favorites.find_by_user_id(current_user) %>
+				<td><h4><%= link_to "♥",favorite_path(current_user.favorites.find_by_article_id(article)), method: :delete %></h4></td>
+				<% else %>
+				<td><h4><%= link_to "♡",article_favorites_path(article),method: :post %></h4></td>
+			</tr>
+			<% end %>
+		</tbody>
+		<% end -%>
+	</table>
+</div>
 
 
 

@@ -30,7 +30,7 @@ end
 resources :favorites, only: [:destroy] 
 resources :follows, only: [:destroy]
 resources :articles do 
-  resources :comments
+  resources :comments, only: [:create,:destroy]
   resources :favorites, only: [:create] 
 end
 

@@ -1,31 +1,33 @@
-<%= stylesheet_link_tag 'user' %>
 <h1>友達を探す</h1><br><br>
 <div class="container">
 	<table class="table-hover">
 		<thead>
 			<tr>
-				<th>&nbsp;Image</th>
-				<th>&nbsp;Name</th>
-				<th>&nbsp;Follow</th>
-				<th>&nbsp;Follower</th>
-				<th>&nbsp;Articles</th>
-				<th>&nbsp;unfollow</th>
+				<th>Image</th>
+				<th>Name</th>
+				<th>Follow</th>
+				<th>Follower</th>
+				<th>Articles</th>
+				<th>unfollow</th>
 			</tr>
 		</thead>
 		<% @users.each do |f| %>
 		<tbody>
 			<tr>
-				<td><%= image_tag (user_image(f.id)) %></td>
-				<td><%= link_to f.follow_name(f.id) ,user_path(f.id) %></td>
-				<td><%= f.user_follow_count(f.id) %></td>
-				<td><%= f.user_follower_count(f.id) %></td>
-				<td><%= f.user_article_count(f.id) %></td>
-				<% if f.follow_or_not(f.id,current_user.id)==1 %>
-				<td><%= link_to "delete follow", follow_path(f.follow_id(f.id, current_user.id)) ,method: :delete %></td>
-				<% else %>
-				<td><%= link_to "create follow", user_follows_path(f.id) , method: :post %></td>
+				<td><%= image_tag (user_image(f)) %></td>
+				<td><%= link_to f.username ,user_path(f) %></td>
+				<td><%= f.follows.count %></td>
+				<td><%= f.user_follower_count(f) %></td>
+				<td><%= f.articles.count %></td>
+				<% if current_user.follows.find_by_followed_id(f) %>
+				<td><%= link_to "delete follow", follow_path(current_user.follows.find_by_followed_id(f)) ,method: :delete %></td>
+				<% else %>	
+				<td><%= link_to "create follow", user_follows_path(f) , method: :post %></td>
 				<% end %>
-				<% end -%>
-			</tbody>
-		</table>
-	</div>
+			</tr>
+			<% end -%>
+		</tbody>
+	</table>
+</div>
+
+

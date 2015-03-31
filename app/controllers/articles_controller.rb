@@ -1,10 +1,11 @@
 class ArticlesController < ApplicationController
+	
 	before_action :facebook
 	before_action :set_project, only:[:edit,:show,:update,:destroy,] 
 require "RMagick"
 
 	def index
-		@articles = Article.all
+		@articles = Article.all.reverse
 		@favorites = Favorite.all
 	end
 
@@ -46,19 +47,7 @@ require "RMagick"
 	end
 
 	def profile
-		@articles = Article.where("user_id = ?", current_user.id )	
-	end
-
-	def favorite_index
-		@article_id = Favorite.where("user_id=?",current_user.id).pluck(:article_id)
-		@articles = Article.all
-		@users = User.all
-	end
-
-	def follow_index
-		@articles = Article.all
-		@follow_id = Follow.where("user_id=?",current_user.id)
-		@follows = Follow.all
+		@articles = Article.where(user_id: current_user.id )	
 	end
 
 	private

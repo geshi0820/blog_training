@@ -31,57 +31,17 @@ class User < ActiveRecord::Base
         uid:      auth.uid,
         provider: auth.provider,
         username: auth.info.name,
-        email: User.get_email(auth),
+        email: auth.info.email,
         password: Devise.friendly_token[0, 20]
         )
     end
     user
   end
 
-  def user_favorite_count(user_id)
-    Favorite.where(user_id: user_id).count
-  end
-
-  def user_follow_count(user_id)
-    Follow.where("user_id=?",user_id).count
-  end
-
   def user_follower_count(user_id)
-    Follow.where("followed_id=?",user_id).count
-  end
-
-  def user_article_count(user_id)
-    Article.where(user_id: user_id).count
-  end
-
-  def follow_name(followed_id)
-    User.find(followed_id).username
-  end
-
-  def follow_id(followed_id,user_id)
-    Follow.where(user_id: user_id, followed_id: followed_id).first.id
-  end
-
-  def favorite_or_not(article_id,user_id)
-    if Favorite.where("user_id=? and article_id=?",user_id,article_id).pluck(:user_id,:article_id).include?([user_id,article_id])
-      1
-    end
-  end  
-
-  def follow_or_not(followed_id,user_id)
-    if Follow.where("user_id = ? and followed_id = ?", user_id, followed_id).pluck(:user_id,:followed_id).include?([user_id,followed_id])
-      p 1
-    else
-      p 0
-    end
-  end
-
-  def article_favorite_count(article_id)
-    Favorite.where("article_id=?",article_id).count
-  end
-
-  def author_name(article_id)
-    user_id = Article.find(article_id).user_id
-    User.find(user_id).username
+    Follow.where(followed_id: user_id).count
   end
 end
+
+
+

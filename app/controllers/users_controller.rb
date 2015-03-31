@@ -1,19 +1,14 @@
 class UsersController < ApplicationController
 	before_action :set_project, only: [:show,:destroy,:user_delete]
+
 	def index		
-		@users = User.all	
-		@articles = Article.all
-		@id = Article.where(user_id: current_user.id).pluck(:id)
-		Follow.where(user_id: current_user.id).each do |f|
-			if f.followed_id != current_user.id
-				@id += Article.where(user_id: f.followed_id).pluck(:id)
-			end
-		end
-		@id = @id.sort.reverse
+		follows = Follow.where(user_id: current_user.id).pluck :followed_id
+		follows << current_user.id
+		@articles = Article.where(user_id: follows).uniq.sort.reverse
 	end
 
 	def show
-		@user_article = Article.where("user_id=?",@user.id)
+		@user_articles = Article.where(user_id: @user.id)
 	end
 
 	def destroy
@@ -23,12 +18,13 @@ class UsersController < ApplicationController
 
 	def all_users
 		@users = User.where(admin: 0)
+		@follows = Follow.all
 	end
 
 	def user_delete
-		@follower = Follow.where(followed_id: @user.id).all
-		if @follower != []
-			@follower.each do |f|
+		followers = Follow.where(followed_id: @user.id)
+		unless followers.empty?
+			followers.each do |f|
 				f.destroy
 			end
 		end

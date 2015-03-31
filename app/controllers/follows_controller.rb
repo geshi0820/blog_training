@@ -5,7 +5,7 @@ class FollowsController < ApplicationController
 	end
 
 	def create
-		@follow = Follow.new(:user_id => current_user.id, :followed_id => params[:user_id])
+		@follow = Follow.new(user_id: current_user.id, followed_id: params[:user_id])
 		@follow.save
 		redirect_to :back
 	end
@@ -20,6 +20,5 @@ class FollowsController < ApplicationController
 		@follow.destroy
 		redirect_to :back
 	end
-	
 end
 

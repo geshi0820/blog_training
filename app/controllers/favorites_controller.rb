@@ -3,10 +3,11 @@ class FavoritesController < ApplicationController
 	def index
 		@user = User.find(params[:user_id])
 		@favorite_users = Favorite.where(user_id: @user.id)
+		@articles = Article.all
 	end
 
 	def create
-		@favorite = Favorite.new(:user_id => current_user.id, :article_id => params[:article_id])
+		@favorite = Favorite.new(user_id: current_user.id, article_id: params[:article_id])
 		@favorite.save
 		redirect_to :back
 	end
@@ -17,3 +18,5 @@ class FavoritesController < ApplicationController
 		redirect_to :back
 	end
 end
+
+

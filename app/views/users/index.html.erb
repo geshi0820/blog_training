@@ -1,30 +1,25 @@
-
+<%= stylesheet_link_tag "profile" %>
+<h1><%= current_user.username %>のタイムライン</h1>
 <div id="container">
-	<div id="header"><h1></h1></div>
 	<div id="main">
-			<% if @id %>
-			<% @id.each do |i| %>
-			<div id="contents">
-				<div class="profile">hiroki</div>
-				<div class="title"><%= image_tag user_image(@articles.find(i).user_id) %></div>
-				<h2 class="title"><%= @articles.find(i).title %></h2>
-				<% unless current_user.favorite_or_not(i,current_user.id)  %>
-				<h3 class="favorite"><%= link_to "♡",article_favorites_path(i),method: :post %></h3>
-				<% else %>
-				<h3 class="favorite"><%= link_to "♥",favorite_path(@articles.find(i).favorite_id(i,current_user.id)), method: :delete %></h3>
-				<% end -%>
-				<h3 class="favorite"><%= link_to "show",article_path(i)%></h3>
-					<br><br><br><br><br>
-					<div class="item" ><%= image_tag @articles.find(i).image_url%></div>
-					<div class="article"><%= @articles.find(i).article %></div>
-				</div><!-- #contents -->
-				<% end -%>
-				<% end -%>
-			</div>
-		</div><!-- #main -->
-		<div id="footer">Copyright 2015, Blogapp.com</div>
-		<a href="">TOPに戻る。</a>
-	</div><!-- #container -->
-
-	<br>
-	<br>
+		<% if @articles %>
+		<% @articles.each do |article| %>
+		<div id="contents">
+			<div class="title"><%= image_tag user_image(article.user_id) %></div>
+			<h2 class="title"><%= article.title %></h2>
+			<% if current_user.favorites.find_by_article_id(article)  %>
+			<h3 class="favorite"><%= link_to "♥",favorite_path(current_user.favorites.find_by_article_id(article)), method: :delete %></h3>
+			<% else %>
+			<h3 class="favorite"><%= link_to "♡",article_favorites_path(article),method: :post %></h3>
+			<% end -%>
+			<h3 class="favorite"><%= link_to "show",article_path(article)%></h3>
+			<br><br><br><br><br>
+			<div class="item" ><%= image_tag article.image_url%></div>
+			<div class="article"><%= article.article %></div>
+		</div>
+		<% end -%>
+		<% end -%>
+	</div>
+</div>
+<a href="http://localhost:3000/users">TOPに戻る。</a>
+</div>
