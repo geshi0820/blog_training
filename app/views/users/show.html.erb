@@ -1,46 +1,44 @@
 <%= stylesheet_link_tag 'profile' %>
 <h1><%= @user.username %>のページ</h1><br>
-<div class="container">
-	<span>
-		<%= link_to @user.favorites.count,user_favorites_path(@user) %> favorite
-	</span>
-	<span>
-		<%= link_to @user.follows.count,user_follows_path(@user) %> follow
-	</span>
-	<span>
-		<%= link_to @user.user_follower_count(@user),follower_user_follows_path(@user) %> follower
-	</span>
-	<% unless @user.id == current_user.id %> 
-	<% if current_user.follows.find_by_followed_id(@user) %>
-	<button class="btn btn-danger"><%= link_to "unfollow", follow_path(current_user.follows.find_by_followed_id(@user)) ,method: :delete %></button>
-</span>
-<% else %>
-<button class="btn btn-primary"><%= link_to "follow", user_follows_path(@user) , method: :post %></button>
-<% end %>
-<% end -%>
-<br><br>
-<table class="table-hover">
-	<thead>
-		<tr>
-			<th>Image</th>
-			<th>Title</th>
-			<th>Time</th>
-			<th>Favorite</th>
-			<th>Delete</th>
-		</tr>
-	</thead>
-	<% @user_articles.each do |article| %>	
-	<tbody>
-		<tr>
-			<td><%= image_tag(article.image_url(:thumb).to_s) %></td>
-			<td><%= link_to article.title, article_path(article) %></td>
-			<td><%= tokyotime(article.created_at) %></td>
-			<td><%= article.favorites.count%></td>
-			<% if article.user_id == current_user.id %>
-			<td><%= link_to image_tag("/assets/drop.jpg/", :size => "30x30"), article_path(article), method: :delete , data: {confirm: "本当に削除しますか？"} -%></td>
+	<div class="container">
+		<span>
+			<%= link_to @user.follows.size, user_follows_path(@user) %> follows
+		</span>
+		<span>
+			<%= link_to @user.reverse_follows.size,follower_user_follows_path(@user) %> followers
+		</span>
+		<span>
+			<%= link_to @user.username+"のお気に入り",user_favorites_path(@user) %>
+		</span>
+			<% unless @user.id == current_user.id %> 
+				<% if current_user.follows.find_by(followed_id: @user) %>
+					<button class="btn btn-danger"><%= link_to "unfollow", follow_path(current_user.follows.find_by(followed_id: @user)) ,method: :delete %></button>
+				<% else %>
+					<button class="btn btn-primary"><%= link_to "follow", user_follows_path(@user) , method: :post %></button>
+				<% end %>
+			<% end -%><br><br>
+		<table class="table-hover">
+			<thead>
+				<tr>
+					<th>記事名</th>
+					<th>写真</th>
+					<th>作成時</th>
+					<th>お気に入り数</th>
+					<th>削除</th>
+				</tr>
+			</thead>
+		  <% @user_articles.each do |article| %>	
+				<tbody>
+					<tr>
+						<td><%= link_to article.title, article_path(article) %></td>
+						<td><%= image_tag(article.image_url(:thumb).to_s) %></td>
+						<td><%= tokyotime(article.created_at) %></td>
+						<td><%= article.favorites.count%></td>
+						<% if article.user_id == current_user.id %>
+							<td><%= link_to image_tag("/assets/drop.jpg/", :size => "30x30"), article_path(article), method: :delete , data: {confirm: "本当に削除しますか？"} -%></td>
+						<% end -%>
+					</tr>
+				</tbody>
 			<% end -%>
-		</tr>
-	</tbody>
-	<% end -%>
-</table>
-</div>
+		</table>
+	</div>

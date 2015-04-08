@@ -1,0 +1,806 @@
+
+N+1問題
+includesでアソシエーションした別のテーブルの情報を全て持ってくるので、SQL発行回数が減る。
+
+
+count
+はSQLを発行してしまう。sizeにすれば問題ない。
+
+
+同じモデルの多対多の時のアソシエーション
+
+user ⇔　(user_id)relation(user2_id) ⇔　user
+user.rb
+  has_many :relations
+  has_many :reverse_relations, →仮想のモデル
+            class_name: "Relation"
+            foreign_key: "user2_id"
+
+で、@user.reverse_relations.id　アソシエーション出来る。
+http://railstutorial.jp/chapters/following-users?version=4.0#fig-page_flow_other_profile_follow_button_mockup
+
+
+
+
+アソシエーションについて。
+
+◯外部キー/主キー
+article 
+id 主キー
+user_id 外部キー
+
+Active Recordの関連付け＝アソシエーション
+Active Recordのモデル同士の関連付ける事。
+
+①belongs_to 
+  book.rb
+   belongs_to :author
+   私達には必ず、authorという親がいます。
+   多 対 1
+
+   @book.author → @bookを書いた著者のレコードを取得。
+
+
+②has_many
+  author.rb
+    has_many :books 
+    私には、1人以上のbookという子共がいます。
+    1 対 多
+
+    @author.book →　@authorが書いた複数の本のレコードを取得。
+
+③has_one
+  author.rb
+    has_one :address
+    私には、必ず１人のaddress子供がいます。
+    1 対 1
+
+    @user.address →　@authorの住所のレコードを取得。
+
+
+④has_many :through
+  author.rb
+    has_many :publish
+    has_many :book, :through: :publish
+    私には、１人以上のpublishという子供がいます。
+    私には、１人以上のbookという子供がいます。
+
+  publish.rb
+    belongs_to: author
+    belongs_to: book
+
+  book.rb
+    has_many :publish
+    has_many :author, through: :publish
+    私には、１人以上のpublishという子供がいます。
+    私には、１人以上のauthorという子供がいます。
+
+  多 対 多
+
+  @author.book　とかすれば、@authorが書いたbookレコードをpublish経由で取得できるということ。
+  逆に
+  @book.author　とかすれば、@bookを書いたauthorレコードをpublish経由で取得してくれる。
+
+
+⑤has_one :through
+  has_one :address, through: :table
+
+  @author.address
+  もちろんauthorテーブルには、addressというカラムは存在しない。
+  tableテーブルには、user_id という　address_idというフィールドが存在する。
+  後から、情報をつなぎあわせたい時とかに便利。
+
+⑧has_and_belongs_to_many
+  多 対 多
+  has_many :throughとの違いは、第三のモデルを介さない。(ただし結合データベースは必要。author_bookテーブル)
+  author.rb
+    has_and_belongs_to_many :books
+    has_and_belongs_to_many :authors
+
+  has_many throughとの違いは、結合テーブルをいじるか否か。
+  validationとかしたいならば、hasmanythroughを使用する。
+
+
+⑦ポリモーフィック関連付け
+  ２つの串刺し
+  @author.picture
+  @book.picture
+  と出来るようになる。
+
+  これは、has_many: pictures
+  をauthorモデルとbookモデルに記述すれば解決だが、コードが冗長になりがちである。そのソリューションがポリモーフィック関連付け
+  以下URL参照
+  http://o.inchiki.jp/obbr/149
+
+  ポリモーフィズムとは多態性という意味。複数のクラスに属する事を意味する。
+
+
+
+
+
+
+
+
+
+
+
+配列/ハッシュ/ハッシュテーブルの要素の取得と追加
+
+
+アドミンのルーティング
+  ルートパラメータの制約条件　constraintsオプション
+  constratints: { id: /[0-9]{1,2}/ }
+  has_many_throughの理解
+  :path_names: {new: :insert, edit: :revise}
+モデルメソッドの変更  
+
+userの中には
+
+配列　
+arr = ["dog","cat","pig"]
+p arr[1] 
+
+ハッシュ
+user = {name: "sato", email: "sato@mail", pass: "satosato"}
+p ser[:name]
+
+
+ハッシュテーブル
+
+users=
+[0]{name: "sato", id: 1}
+[1]{name: "kita", id: 2}
+[2]{name: "akita", id: 3}
+
+で、
+
+値を取得
+ハッシュ：
+fetch(:name) →　[:name] と同じ。
+ハッシュテーブル：
+pluck(:name) →　nameカラムの配列を取["sato","kita","akita"]
+
+
+要素を追加
+配列
+arr << "elephant" 末尾に追加 
+arr.push("elephant") 末尾に追加
+arr.unshift("horse") 先頭に追加
+
+ハッシュ
+user[:sex] = male
+user.store("sex", "female")
+
+
+ハッシュテーブルに追加し
+
+
+
+
+
+
+
+
+
+sqlの文法
+配列uniq.
+クラスメソッド、レシーバ
+route : admin :delete_all_user 危ない。
+モデルのメソッドのレシーバ
+アドミン　：　deviseに便利な機能→ログインした時と、していない時を分ける。→コントローラー
+管理画面：もう少し作る。
+userの詳細、記事の詳細
+find_by_article_id
+
+
+
+
+
+
+
+
+
+今やりたい事。
+まずは、author_name
+User.find(Article.find(f.article_id).user_id).username
+フォ星た記事のアーティクルIDを抽出
+その記事の、user_idを抽出。
+f.article.user.username 
+みたいな。
+つまり、fでa_idを抽出
+articleでuser_idを抽出
+userでusernameを抽出。
+結局、わかっているのが、これをファボしたという記録。
+何が出来ないのか。　
+
+
+
+
+user_controller　のindex
+modelのメソッド。
+
+belongs_toのつなぎ方
+
+
+.empty? 
+自身の要素が0の時に、真を返す。
+
+modelのscope
+
+   attr_accessible :action, :item_id, :model_changes, :model_name
+   serialize :model_changes
+
+
+   respond_to do ||format|
+    format.html
+    end
+
+
+    initializeメソッド
+    newメソッドで新しいインスタンスを作成した時に呼び出される特殊なメソッド。要は、newで挿入した値を、インスタンス変数に格納してくれるメソッド。
+
+
+ インスタンス変数の値を取得してくれるものをゲッターという。
+  puts my_car.name  -> prius
+
+  attr_reader :name, :color
+  ゲッターの取得
+
+
+ インスタンス変数の値を変更するのは、セッター
+ attr_writer
+
+ attr_accessor
+
+
+ クラスメソッドは、インスタンスメソッドとは関係ないメソッドを作るときに使う。
+ 
+
+
+
+
+
+
+
+
+
+
+
+whereで、複数の条件。
+つまり、自分と、フォローしている人のけんさくじょうけんにすればおけ。
+
+
+タイムラインはできた。
+
+次は、author_nameだな。
+self.o
+
+
+header 
+main
+footer
+margin: 0  auto
+%でブラウザの幅に応じて。
+2カラム、
+float: left; →　width を指定しないといけない。
+width 30%;
+周りこまない用に、over float hidden 
+margin :left 200px
+overflow hidden
+mainはメインコンテンツか
+left center right
+
+div id=container
+div id= header 
+div id=manu
+div id=main
+div id=content
+div id=sidebar
+
+
+or　だと上手くいかない。
+
+
+→　+= で二度取ってくる。
+
+
+
+
+
+
+2015/03/30
+
+
+◯ダブって表示されている問題
+◯誰かをフォローしないと、自分のアーティクルが表示されない問題
+◯アドミンも若干怪しい。 -> done
+◯若干、フォロー周りがおかしい。 
+◯profile editでプロフィール画像を表示 -> edit
+◯フェイバリット　→
+
+
+ダブリ問題
+まずは、ロジックを組む。
+フォローテーブルのuser_idに自分のidが存在する。
+それに対応する、フォロワーidが存在。
+そのフォロワーのidを検出して、アーティクルで回す。
+
+<% Follow.where(user_id: current_user.id).each do |f| %>
+<% Article.where(user_id: f.followed_id).each do |a| %>
+<p><%= a.created_at %></p>
+<% end -%>
+<% end -%>
+
+    @user = User.find(current_user.id)
+    @followers = Follow.where(user_id: current_user.id)
+    @articles = Article.all 
+    @users = User.all
+    @follows = Follow.all
+    @favorites = Favorite.alls
+
+
+とりあえず、自分のユーザーと、フォローしている人のid
+
+ゴールは、follower_article(current_user.id).each do |f| 
+つまり、この中にフォローしている人と自分のユーザのarticleレコードを埋め込む。
+
+follower_id = Follow.where(user_id: current_user.id).all
+follower_id.each do |f|
+article += Article.where(user_id: f.follower_id)
+end
+article += Article.where(user_id: current_user.id)
+@article = article
+
+   delete_all_users_users DELETE   /users/delete_all_users(.:format)                 users#delete_all_users
+delete_all_articles_users DELETE   /users/delete_all_articles(.:format)              users#delete_all_articles
+
+
+
+editで、
+routingを変える。
+delete 'user_delete'
+
+user_delete_use :id
+
+render :template => "users/destroy"
+
+
+
+
+elper 
+◯helper洗い出し
+◯modelに全てを格納。
+◯viewを全て修正、
+
+
+◯article
+author
+  def author_name(article_id) -> a/i u/i 
+  def author_id(article_id) -> fa/i
+  def article_favorite_count(article_id)->fa/i u/s 
+  def article_favorite(article_id) -> a/i fa/i u/i u/s 
+  def author_or_not(article_id,author_id) -> u/s 
+
+◯favo
+
+  def favorite_or_not(article_id) -> a/i fa/i u/i  
+  def favorite_id(article_id) -> a/i fa/i u/i 
+
+◯follow
+  def follow_or_not(followed_id,user_id) -> fo/fo fo/i u/all u/s 
+  def follow_id(followed_id) -> fo/fo fo/i u/all u/s 
+  def follow_name(followed_id) -> fo/i u/all  
+
+◯user
+  def user_follow_count(user_id) -> fo/fo fo/i u/all u/s 
+  def user_follower_count(user_id) -> fo/fo fo/i u/all u/s
+  def user_favorite_count(user_id) -> u/s 
+  def user_article_count(user_id) -> fo/fo fo/i us/all 
+  def user_image(user_id)
+
+
+
+
+
+modelのメソッドのレシーバは、そのクラス。
+
+
+
+
+
+
+スタイルシート　
+
+記事一覧系
+ユーザー閲覧系
+プロフィール系
+
+
+プロフィール 
+お気に入り
+フォロー
+フォローワー
+
+タイムライン
+全ユーザー
+全記事
+
+create
+log in
+edit
+
+◯記事一覧系
+全記事
+タイムライン
+お気に入り
+
+◯ユーザー系
+全ユーザー
+フォロー
+フォロワー
+
+◯プロフィール系
+プロフィール　
+
+8時くらいだな〜
+
+
+
+
+タイムライン作成
+◯ルーティング
+◯コントローラー作成
+◯view作成
+
+ timeline_user 
+
+
+ 色々.. 
+ user show -> profile画面
+ user timeline -> userタイムライン
+ article index -> user一覧
+
+ アクション
+ timelineをuser indexに仕様
+
+
+タイムライン
+timeline_id が複数ある。
+  1というユーザーが持っているコンテンツも複数ある。
+
+
+  Article.all.each do |article|
+    @timeline_id.each do |f|
+      if article.id == f.id
+        p article.title
+      end
+  <tbody> 
+      
+        <% end %>
+
+      </tbody>
+      <% end -%>
+    </table>
+  </div>
+  <div> 
+  </div>
+
+
+
+
+
+
+
+
+
+
+全体像を把握
+dropを作る。
+
+Home
+→Time_Line
+→ユーザー一覧
+
+Profile
+→follow一覧
+→follower一覧
+→favorite一覧
+
+Create
+
+<%= link_to "リンクテキスト", { :controller => :items, :action => :show, :id => id, :key => :value }, { :id => "link_id", :class => "link_class", :target => "_blank"} %>
+
+<%= link_to current_user.username, user_path(current_user.id) , { :id => "link_id", class="dropdown-toggle" , data-toggle="dropdown" } %>
+
+ <ul class="dropdown">
+        <li><a class="dropdown-toggle" data-toggle="dropdown" href="#">
+          <%= link_to current_user.username,user_path(current_user.id) %><b class="caret"></b></a>
+          <ul class="dropdown-menu">
+            <li><a href="#">メニュー1-1</a></li>
+            <li><a href="#">メニュー1-2</a></li>
+            <li><a href="#">メニュー1-3</a></li>
+            <li><a href="#">メニュー1-4</a></li>
+            <li><a href="#">メニュー1-5</a></li>
+          </ul>
+        </li>
+user_path(current_user.id)
+
+
+
+canvas ショートカット　
+jquery input file
+
+
+jquery　重い問題　→　なんかもう一度コピペしたら解決。
+多分どっかのこまんどが間違ってた説。
+
+表示サイズ00にすることで、見かけ上は表示させない。
+
+
+2015/03/27
+
+
+・profile -> done 
+・follow/favorite機能(post)　-> done
+・follow/favorite機能(delete) -> done
+・Facebookの値DBに挿入 -> 途中
+・画面サイズ -> done 
+・canvas機能を作成　-> done
+・follow一覧 -> done
+・follower一覧 
+・favorite一覧 -> done 
+・comments　コントローラー　before_action -> done
+
+残り、画像サイズ、follower一覧とview、Facebookの画像・index
+
+
+
+・メイン画面、ファボボタン、クリエイトボタン、showボタン
+・記事閲覧画面：全体的にだめ。
+・プロフィール画面：背景色に統一がない。
+・followのボタン
+・favoriteのボタン
+
+
+imageuploader
+RMagick　→
+画像サイズの変更、フォーマットの変更、デコ
+
+<img alt="Thumb 384 cveta gorod belyj zheltyj 1680x1050  www.gdefon.ru " src="/uploads/article/image/31/thumb_384_cveta_gorod_belyj_zheltyj_1680x1050__www.GdeFon.ru_.jpg">
+
+require "RMagick"
+
+img = Magick::ImageList.new("==")
+new_img = img.blur_image("0.0, 10,0")
+new_img = img.scale(0.25)
+new_img.write("blur.jpg")
+new_img.destroy!
+
+
+要は、　Magick::ImageList.new( ファイル名)
+これを、scaleなんちゃらで変換、
+new.write()i
+
+
+画像サイズ
+メソッドっぽくできないかな〜
+
+carrierwaveについて
+簡単に言うと、イメージをアップロードするもの。
+要は、ファイルの形式とか色々決めてアップロードできますよ。　
+RMagickとは
+
+
+わかった。
+ファイル
+img にファイルを受け取る。
+Magickなんちゃらで変換する。
+writeする。
+
+１．画像をcanvasを使わない。
+２．コントローラのバックアップをとっておく。
+３．imageだけを受け取る。
+４．コントローラーでimageの値を受け取る。
+５．imageの値をimage_uploader下降する。
+６．保存する。
+７．確認
+
+
+image = Magick::Image.read('original.png').first
+image.resize!(scale)
+image.write('resize.png')
+
+
+image_tag hogehoge.url(:thumb).to_s
+
+
+
+・favorite一覧 
+
+◯routingを確認
+◯viewを作成
+◯controllerを作成
+◯show viewを作成。
+◯helperを作成。
+
+            user_favorites GET      /users/:user_id/favorites(.:format)               favorites#index
+
+<%= @favorite_articles .each do |article| %>
+<%= article.title %>
+<% end -%>
+
+・follow一覧
+
+◯routeを作成
+◯viewを作成
+◯controllerを作成
+◯route
+favorite/show
+
+◯routesを作成
+    user_follows GET      /users/:user_id/follows(.:format)
+
+    要は、カツオがフォローしている、idをピックして、
+    Userに挿入すれば良い。
+    
+
+◯viewを作成。
+
+
+
+
+
+	follow
+コントローラーをp
+consoleの仕方を知っている。 $()
+divがブロックの領域出ないことがわからなかった。
+
+
+ UPDATE users SET admin=1 where id = 10 
+
+ UPDATE users SET admin=1 where id = 13;
+・
+unfabo
+
+◯routeを確認　　favorite/delete → 
+◯user/showにアンフォローボタンを作成。
+◯favo_id　を取得するヘルパーメソッドを作成。
+◯favorite/controllerにdeleteメソッドを作成。->done　
+
+favorite DELETE   /favorites/:id(.:format) 
+
+
+
+
+
+
+・follow delete()
+◯routeを確認　　favorite/delete → 
+◯user/showにアンフォローボタンを作成。
+◯favorite/controllerにdeleteメソッドを作成。->done　
+
+
+◯routeを確認。
+  follow DELETE   /follows/:id(.:format)    
+
+
+◯user/show
+	Favorite　の followed_id = @user_id
+
+	def destroy
+		@followed_id = params[:id]
+		@favorite = Favorite.where("followed_id=? and user_id=?",@followed_id,current_user.id)
+		@favorite.destroy
+		redirect_to articles_path
+	end
+
+
+	wrong number of arguments (0 for 1)
+
+
+	次は、helperメソッドで、
+
+Follow.where(user_id: current_user.id, followed_id: @user_id).id
+
+
+	def follow_id(followed_id)
+		Follow.where(user_id: current_user.id, followed_id: followed_id).first.id
+	end
+
+	.first使わないと、DB　relationsみたいに、複数あると言われる。
+
+	
+◯Facebookの値DBに挿入
+http://abeyuusuke1978.hatenablog.com/entry/2015/01/03/235255
+
+
+後は、Facebookの画像をDBに挿入する。
+urlを取得することは出来た。url -> fileにする。
+
+  def save_image(url)
+  # ready filepath
+  fileName = File.basename(url)
+  dirName = "/var/tmp/hoge/"
+  filePath = dirName + fileName
+
+  # create folder if not exist
+  FileUtils.mkdir_p(dirName) unless FileTest.exist?(dirName)
+
+  # write image adata
+  open(filePath, 'wb') do |output|
+    open(url) do |data|
+      output.write(data.read)
+    end
+  end
+end
+
+url
+o
+◯コントローラーの<%= auth[:info][:image] %>　を表示する。　
+
+
+
+・favoriteスイッチ作成。
+
+◯article/indexにファボボタンを作成。->done
+◯routeを確認。->done
+◯favorite/controllerにcreateメソッドを作成。->done　
+◯favorite_helperに条件分岐を作成する。
+
+
+◯
+◯route
+    article_favorites POST     /articles/:article_id/favorites(.:format)         favorites#create
+			<%if favorite_or_not(article.user_id,current_user.id)== "true"  %>
+
+			.include?([current_user.id,article_id])
+
+
+
+
+			@@@@@@@@
+
+
+validation;がかかっていた。
+================
+
+*are_you_author/favorite_or_not
+================
+p "true"とやればなんかできた。　
+="true"
+================
+
+
+＊userを継承したコントローラの作成
+=================
+他のデータベースを継承したコントローラー作成
+userというデータベースが存在する。
+user controllerを
+
+devise、userモデル用のコントローラー　index/showアクションを追加。
+http://easyramble.com/create-users-index-show-on-devise.html
+==========
+
+
+
+・follow機能を実装する。
+
+◯user/showにフォローボタンを作る。
+◯routeにuser member do followを設定する。
+◯follow/controllerにcreateコントローラーを作る。->done
+◯follow_helperに条件分岐を作成する。
+
+
+◯フォローボタン
+<%= link_to "create follow", user_follows , method: :post %>
+
+◯ルート
+  user_follows POST     /users/:user_id/follows(.:format) 
+
+◯
+
+◯条件分岐
+<%= follow_or_not(@user_id,current_user.id)%>
+helper と
+
+スイッチ男。

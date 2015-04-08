@@ -4,25 +4,26 @@
 	<table class="table-hover">
 		<thead>
 			<tr>
-				<th>Image</th>
-				<th>Name</th>
-				<th>Follow</th>
-				<th>Follower</th>
-				<th>Articles</th>
-				<th>unfollow</th>
+				<th>プロフィール</th>
+				<th>名前</th>
+				<th>フォロー数</th>
+				<th>フォロワー数</th>
+				<th>記事数</th>
+				<th>フォロー外す</th>
 			</tr>
 		</thead>
 		<tbody>
-			<% @follows.each do |f| %>
+			<% @users.each do |f| %>
 			<tr>
-				<td><%= image_tag (user_image(f.followed_id)) %></td>
-				<td><%= link_to f.follow_name(f.followed_id) ,user_path(f.followed_id) %></td>
-				<td><%= f.user_follow_count(f.followed_id) %></td>
-				<td><%= f.user_follower_count(f.followed_id) %></td>
-				<td><%= f.user_article_count(f.followed_id) %></td>
-				<td><%= link_to "unfollow", follow_path(f.follow_id(f.followed_id,current_user.id)),method: :delete %></td>
+				<td><%= image_tag f.user_image %></td>
+				<td><%= f.username %></td>
+				<td><%= f.username %></td>
+				<td><%= f.follows.size %></td>
+				<td><%= f.reverse_follows.size %></td>
+				<td><%= f.articles.size %></td>
+				<td><%= link_to "unfollow", follow_path(current_user.follows.find_by(followed_id: f)) ,method: :delete %></td>
 			</tr>
+			<% end -%>
 		</tbody>
-		<% end -%>
 	</table>
 </div>

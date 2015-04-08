@@ -4,29 +4,29 @@
 	<table class="table-hover">
 		<thead>
 			<tr>
-				<th>Image</th>
-				<th>Name</th>
-				<th>Follow</th>
-				<th>Follower</th>
-				<th>Articles</th>
-				<th>follow</th>
+				<th>プロフィール</th>
+				<th>名前</th>
+				<th>フォロー数</th>
+				<th>フォロワー数</th>
+				<th>記事数</th>
+				<th>フォロー</th>
 			</tr>
 		</thead>
-			<% @follower.each do |f| %>		
+			<% @users.each do |f| %>		
 		<tbody>
 			<tr>
-				<td><%= image_tag (user_image(f.user_id)) %></td>
-				<td><%= link_to f.follow_name(f.user_id), user_path(f.user_id) %></td>
-				<td><%= f.user_follow_count(f.user_id) %></td>
-				<td><%= f.user_follower_count(f.user_id) %></td>
-				<td><%= f.user_article_count(f.user_id) %></td>
-				<% if f.follow_or_not(f.id,current_user.id).empty? %>
-				<td><%= link_to "create follow", user_follows_path(f.id) , method: :post %></td>
-				<% else %>
-				<td><%= link_to "delete follow", follow_path(f.follow_id(f.id,current_user.id)) ,method: :delete %></td>
-			<% end -%>
+				<td><%= image_tag f.user_image %></td>
+				<td><%= link_to f.username, user_path(f) %></td>
+				<td><%= f.follows.size %></td>
+				<td><%= f.reverse_follows.size %></td>
+				<td><%= f.articles.size %></td>
+				<% if current_user.follows.find_by(followed_id: f) %>
+				 <td><%= link_to "unfollow", follow_path(current_user.follows.find_by(followed_id: f)) ,method: :delete %></td>
+				<% else %>	
+				 <td><%= link_to "follow", user_follows_path(f) , method: :post %></td>
+				<% end %>
 			</tr>
-			</tbody>
-			<% end -%>
-		</table>
-	</div>
+		</tbody>
+		<% end -%>
+	</table>
+</div>

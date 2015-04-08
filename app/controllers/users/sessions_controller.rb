@@ -4,11 +4,14 @@ class Users::SessionsController < Devise::SessionsController
   # GET /resource/sign_in
   def new
     super
+    p "重村"
+    p user_session
   end
 
   # POST /resource/sign_in
   def create
     super
+    p "ハロー"
   end
 
   # DELETE /resource/sign_out

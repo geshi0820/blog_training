@@ -1,26 +1,28 @@
 <div class="container" style="text-align: center">
 	<h1><%= @article.title%>&nbsp;&nbsp;
-		<% unless @article.favorites.find_by_user_id(current_user) %>
-		<%= link_to "♡",article_favorites_path(@article),method: :post %></h1>
-		<% else %> 
-		<%= link_to "♥",favorite_path(@article.favorites.find_by_user_id(current_user)), method: :delete %></h1>
+		<% unless @article.favorites.find_by(user_id:current_user) %>
+		 <%= link_to "♡",article_favorites_path(@article),method: :post %></h1>
+		<% else %>
+		 <%= link_to "♥",favorite_path(@article.favorites.find_by(user_id: current_user)), method: :delete %></h1>
 		<% end -%>
 		<p><%= @article.article%></p>
-		<div class="item"><%= image_tag @article.image_url %></div>
-		<br><br>
-		<div>
-			<h3>comment</h3>
-			<% @article.comments.reverse_each do |comment| %>
+	<div class="item"><%= image_tag @article.image_url %></div><br><br>
+	<div>
+ 		<h3>comment</h3>
+		<% @comments.each do |comment| %>
 			<p>
 				<%= comment.comment %>
+				<% if comment.user_id == current_user.id %>
 				<%= link_to "delete", article_comment_path(comment.article_id, comment), method: :delete %>
+				<% end -%>
 			</p>
-			<% end %>
-			<%= form_for [@article, @article.comments.build] do |f|%>
-			<%= f.text_field :comment %> 
-			<%= f.hidden_field :user_id ,:value => current_user.id%>
-			<%= f.submit %>
-			<% end -%>
-		</div>
+		<% end %>
+		<%= form_for([@article, @comment]) do |f|%>
+			<div class="field">
+				<%= f.text_field :comment %>
+				<%= f.hidden_field :user_id ,:value => current_user.id%>
+				<%= f.submit %>
+			</div>
+		<% end -%>
 	</div>
-
+</div>

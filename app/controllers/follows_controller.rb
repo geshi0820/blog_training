@@ -1,7 +1,8 @@
 class FollowsController < ApplicationController
 	def index
 		@user = User.find(params[:user_id])
-		@follows = Follow.where(user_id: @user.id)
+		user_follows = Follow.where(user_id: @user.id).pluck(:followed_id)
+		@users = User.includes(:follows,:reverse_follows,:articles).find(user_follows)
 	end
 
 	def create
@@ -12,7 +13,8 @@ class FollowsController < ApplicationController
 
 	def follower
 		@user = User.find(params[:user_id])
-		@follower = Follow.where(followed_id: @user.id)	
+		followers = Follow.where(followed_id: @user.id).pluck(:user_id)
+		@users = User.includes(:follows,:reverse_follows,:articles).find(followers)
 	end
 
 	def destroy

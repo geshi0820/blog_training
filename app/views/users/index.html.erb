@@ -2,15 +2,14 @@
 <h1><%= current_user.username %>のタイムライン</h1>
 <div id="container">
 	<div id="main">
-		<% if @articles %>
 		<% @articles.each do |article| %>
 		<div id="contents">
-			<div class="title"><%= image_tag user_image(article.user_id) %></div>
+			<div class="title"><%= image_tag article.user.user_image %></div>
 			<h2 class="title"><%= article.title %></h2>
-			<% if current_user.favorites.find_by_article_id(article)  %>
-			<h3 class="favorite"><%= link_to "♥",favorite_path(current_user.favorites.find_by_article_id(article)), method: :delete %></h3>
+			<% if current_user.favorites.find_by(article_id: article)  %>
+			<h2 class="favorite"><%= link_to "♥",favorite_path(current_user.favorites.find_by(article_id: article)), method: :delete %></h2>
 			<% else %>
-			<h3 class="favorite"><%= link_to "♡",article_favorites_path(article),method: :post %></h3>
+			<h2 class="favorite"><%= link_to "♡",article_favorites_path(article),method: :post %></h2>
 			<% end -%>
 			<h3 class="favorite"><%= link_to "show",article_path(article)%></h3>
 			<br><br><br><br><br>
@@ -18,8 +17,7 @@
 			<div class="article"><%= article.article %></div>
 		</div>
 		<% end -%>
-		<% end -%>
 	</div>
 </div>
-<a href="http://localhost:3000/users">TOPに戻る。</a>
+<a href="<%= users_path %>">TOPに戻る。</a>
 </div>

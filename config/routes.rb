@@ -9,14 +9,10 @@ Blogapp::Application.routes.draw do
 resources :users, :only => [:index, :show, :destroy] do 
   collection do
     get 'all_users'
-    get 'admin'
+    get 'admin' 
     delete 'delete_all_users'
     delete 'delete_all_articles' 
-  end
-  member do
     delete 'user_delete'
-    delete 'delete_all_users'
-    delete 'delete_all_articles'
   end
 
   resources :follows, only: [:index,:create] do

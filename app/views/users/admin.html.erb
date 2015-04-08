@@ -8,31 +8,31 @@
 	<table class="table">
 		<thead>
 			<tr>
-				<th>user</th>
-				<th>email</th>
-				<th>provider</th>
-				<th>articles</th>
-				<th>follows</th>
-				<th>followers</th>
-				<th>time</th>
-				<th><img src="/assets/drop.jpg" alt="delete" width="30" height="30"></th>
+				<th>名前</th>
+				<th>Eメール</th>
+				<th>プロバイダー</th>
+				<th>記事数</th>
+				<th>フォロー数</th>
+				<th>フォロワー数</th>
+				<th>登録時</th>
+				<th>削除</th>
 			</tr>
 		</thead>
 		<% @users.each do |user| %> 
-		<% unless user.admin %>
-		<tbody>	
-			<tr>
-				<td><%= user.username %></td>
-				<td><%= user.email %></td>
-				<td><%= user.provider %></td>
-				<td><%= user.articles.count  %></td>
-				<td><%= user.follows.count %></td>
-				<td><%= user.user_follower_count(user) %></td>
-				<td><%= tokyotime(user.created_at) %></td>
-				<td><%= link_to "drop", user_delete_user_path(user) ,method: :delete, data: {confirm: "本当に削除しますか？"} %></td>
-			</tr>
-		</tbody>
-		<% end -%>
+		 	<% unless user.admin %>
+			<tbody>	
+				<tr>
+					<td><%= user.username %></td>
+					<td><%= user.email %></td>
+					<td><%= user.provider %></td>
+					<td><%= user.articles.size  %></td>
+					<td><%= user.follows.size %></td>
+					<td><%= user.reverse_follows.size %></td>
+					<td><%= tokyotime(user.created_at) %></td>
+					<td><%= link_to image_tag("/assets/drop.jpg/", :size => "30x30"), user_delete_user_path(user) ,method: :delete, data: {confirm: "本当に削除しますか？"} %></td>
+				</tr>
+			</tbody>
+			<% end -%>
 		<% end -%>
 	</table>
 </div>
@@ -41,22 +41,22 @@
 	<table class="table">
 		<thead>
 			<tr>
-				<th>title</th>
-				<th>name</th>
-				<th>time</th>
-				<th>favorites</th>
-				<th><img src="/assets/drop.jpg" alt="delete" width="30" height="30"></th>
+				<th>記事名</th>
+				<th>作者</th>
+				<th>作成時</th>
+				<th>お気に入り数</th>
+				<th>削除</th>
 			</tr>
 		</thead>
 		<% @articles.each do |article| %> 
 		<tbody>	
-			<ul><tr>
+			<tr>
 				<td><%= article.title %></td>
-				<td><%= article.id %></td>
+				<td><%= article.user.username %></td>
 				<td><%= tokyotime(article.created_at) %></td>
-				<td><%= article.favorites.count %></td>
-				<td><%= link_to "drop", article_path(article), method: :delete, data: {confirm: "本当に削除しますか？"} -%></td>
-			</tr></ul>
+				<td><%= article.favorites.size %></td>
+				<td><%= link_to image_tag("/assets/drop.jpg/", :size => "30x30"), article_path(article), method: :delete, data: {confirm: "本当に削除しますか？"} -%></td>
+			</tr>
 		</tbody>
 		<% end -%>
 	</table>

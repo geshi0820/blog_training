@@ -1,16 +1,16 @@
 class ArticlesController < ApplicationController
 	
 	before_action :facebook
-	before_action :set_project, only:[:edit,:show,:update,:destroy,] 
+	before_action :set_article, only:[:edit,:show,:update,:destroy,] 
 require "RMagick"
 
 	def index
-		@articles = Article.all.reverse
-		@favorites = Favorite.all
+		@articles = Article.all.order("created_at ASC")
 	end
 
 	def show
-		@articles = Article.all 
+	  @comments = @article.comments
+	  @comment = @article.comments.build
 	end
 
 	def new
@@ -24,13 +24,10 @@ require "RMagick"
 		tmp_article_params[:remote_image_url] = nil
 		article = Article.new(tmp_article_params)
 		if article.save
-			redirect_to root_url
+			redirect_to users_path
 		else
 			redirect_to :back
 		end
-	end
-
-	def edit
 	end
 
 	def update
@@ -59,7 +56,7 @@ require "RMagick"
 		params[:comment].permit(:comment, :user_id)
 	end
 
-	def set_project
+	def set_article
 		@article = Article.find(params[:id])		
 	end	
 	
