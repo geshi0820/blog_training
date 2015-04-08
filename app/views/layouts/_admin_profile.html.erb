@@ -1,0 +1,34 @@
+<%= stylesheet_link_tag 'profile' %>
+<span class="admin">管理者専用</span>
+<h1><%= @user.username %>のページ</h1><br>
+	<div class="container">
+		<span>
+			<%= @user.follows.size %> follows
+		</span>
+		<span>
+			<%= @user.reverse_follows.size %> followers
+		</span>
+		<span>
+			<%= @user.username+"のお気に入り" %>
+		</span>
+		<table class="table-hover">
+			<thead>
+				<tr>
+					<th>記事名</th>
+					<th>写真</th>
+					<th>作成時</th>
+					<th>お気に入り数</th>
+				</tr>
+			</thead>
+		  <% @user_articles.each do |article| %>	
+				<tbody>
+					<tr>
+						<td><%= link_to article.title, article_path(article) %></td>
+						<td><%= image_tag(article.image_url(:thumb).to_s) %></td>
+						<td><%= tokyotime(article.created_at) %></td>
+						<td><%= article.favorites.count%></td>
+					</tr>
+				</tbody>
+			<% end -%>
+		</table>
+	</div>

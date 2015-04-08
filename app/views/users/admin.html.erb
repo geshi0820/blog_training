@@ -1,63 +1,42 @@
-<%= stylesheet_link_tag 'user' %>
-<%= link_to "全記事削除", delete_all_users_users_path , data: {confirm: "本当に削除しますか？"}%> | 
-<%= link_to "全ユーザー削除",delete_all_articles_users_path , data: {confirm: "本当に削除しますか？"}%>
-<br><br>
-<h1>管理者画面</h1>
-<div class="container" >
-<br><h3>ユーザー一覧</h3>
-	<table class="table">
-		<thead>
-			<tr>
-				<th>名前</th>
-				<th>Eメール</th>
-				<th>プロバイダー</th>
-				<th>記事数</th>
-				<th>フォロー数</th>
-				<th>フォロワー数</th>
-				<th>登録時</th>
-				<th>削除</th>
-			</tr>
-		</thead>
-		<% @users.each do |user| %> 
-		 	<% unless user.admin %>
-			<tbody>	
-				<tr>
-					<td><%= user.username %></td>
-					<td><%= user.email %></td>
-					<td><%= user.provider %></td>
-					<td><%= user.articles.size  %></td>
-					<td><%= user.follows.size %></td>
-					<td><%= user.reverse_follows.size %></td>
-					<td><%= tokyotime(user.created_at) %></td>
-					<td><%= link_to image_tag("/assets/drop.jpg/", :size => "30x30"), user_delete_user_path(user) ,method: :delete, data: {confirm: "本当に削除しますか？"} %></td>
-				</tr>
-			</tbody>
-			<% end -%>
-		<% end -%>
-	</table>
-</div>
-<div class="container" >
-<br><h3>記事一覧</h3>
-	<table class="table">
-		<thead>
-			<tr>
-				<th>記事名</th>
-				<th>作者</th>
-				<th>作成時</th>
-				<th>お気に入り数</th>
-				<th>削除</th>
-			</tr>
-		</thead>
-		<% @articles.each do |article| %> 
-		<tbody>	
-			<tr>
-				<td><%= article.title %></td>
-				<td><%= article.user.username %></td>
-				<td><%= tokyotime(article.created_at) %></td>
-				<td><%= article.favorites.size %></td>
-				<td><%= link_to image_tag("/assets/drop.jpg/", :size => "30x30"), article_path(article), method: :delete, data: {confirm: "本当に削除しますか？"} -%></td>
-			</tr>
-		</tbody>
-		<% end -%>
-	</table>
-</div>
+	<div class="main">
+		<div class="sidebar">
+			<ul>
+				<li class="side_box"><%= link_to "記事一覧",admin_articles_users_path %></li>
+				<li class="side_box"><%= link_to "ユーザー一覧",admin_users_path %></li>
+			</ul>
+			<img src="http://i.gzn.jp/img/2011/12/26/shirokuro-social-icons/icon-white-web.png">
+		</div>
+		<div class="contents">
+			<div class="contents-top">
+				<h1>ユーザー一覧</h1>
+				<span><button class="clear"><%= link_to "ユーザー初期化",delete_all_users_users_path, method: :delete , data: {confirm: "本当に削除しますか？"} %></button></span>
+				<div class="contents-bottom">
+					<table>
+						<tr>
+							<th class="th-11">ID</th>
+							<th class="th-12">画像</th>
+							<th class="th-13">名前</th>
+							<th class="th-14">作成時</th>
+							<th class="th-15">記事数</th>
+							<th class="th-15">フォロー</th>
+							<th class="th-15">フォロワー</th>
+							<th class="th-16">削除</th>
+						</tr>
+						<% @users.each do |f| %>
+						<tr>
+							<td class="th-11"><%= f.id %></td>
+							<td class="th-12"><%= image_tag(f.user_image) %></td>
+							<td class="th-13"><%= link_to f.username ,user_path(f) %></td>
+							<td class="th-14"><%= tokyotime(f.created_at) %></td>
+							<td class="th-15"><%= f.articles.size -%></td>
+							<td class="th-15"><%= f.follows.size -%></td>
+							<td class="th-15"><%= f.reverse_follows.size -%></td>
+							<td class="th-16"><%= link_to image_tag("/assets/drop.jpg/"), user_delete_user_path(f), method: :delete , data: {confirm: "本当に削除しますか？"} -%></td>
+						</tr>
+						<% end %>
+					</table>
+				</div>
+			</div>
+		</div>
+	</body>
+	</html>

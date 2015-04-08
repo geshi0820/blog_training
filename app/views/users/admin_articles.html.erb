@@ -1,0 +1,38 @@
+	<div class="main">
+		<div class="sidebar">
+			<ul>
+				<li class="side_box"><%= link_to "記事一覧",admin_articles_users_path %></li>
+				<li class="side_box"><%= link_to "ユーザー一覧",admin_users_path %></li>
+			</ul>
+			<img src="http://i.gzn.jp/img/2011/12/26/shirokuro-social-icons/icon-white-web.png">
+		</div>
+		<div class="contents">
+			<div class="contents-top">
+				<h1>記事一覧</h1>
+				<span><button class="clear"><%= link_to "記事初期化",delete_all_articles_users_path, method: :delete , data: {confirm: "本当に削除しますか？"} %></button></span>
+				<div class="contents-bottom">
+					<table>
+						<tr>
+							<th class="th-1">ID</th>
+							<th class="th-2">タイトル</th>
+							<th class="th-3">作成者</th>
+							<th class="th-4">作成時</th>
+							<th class="th-5">編集</th>
+							<th class="th-6">削除</th>
+						</tr>
+						<% @articles.each do |f| %>
+						<tr>
+							<td class="th-1"><%= f.id %></td>
+							<td class="th-2"><%= link_to f.title, article_path(f)%></td>
+							<td class="th-3"><%= f.user.username %></td>
+							<td class="th-4"><%= tokyotime(f.created_at) %></td>
+							<td class="th-5"><%= link_to image_tag("/assets/edit.png/"), edit_article_path(f) -%></td>
+							<td class="th-6"><%= link_to image_tag("/assets/drop.jpg/"), article_path(f), method: :delete , data: {confirm: "本当に削除しますか？"} -%></td>
+						</tr>
+						<% end %>
+					</table>
+				</div>
+			</div>
+		</div>
+	</body>
+	</html>

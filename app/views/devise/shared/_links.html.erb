@@ -4,16 +4,14 @@
       	<% end -%>
 
       	<%- if devise_mapping.registerable? && controller_name != 'registrations' %>
-				<div class="col-md-1" style="border: 1px "><%= link_to "", new_registration_path(resource_name) %></div>
-      	<% end -%>
+        <div class="col-md-1" style="border: 1px "><%= link_to "", new_registration_path(resource_name) %></div>
+        <% end -%>
 
-    
+        <%- if devise_mapping.confirmable? && controller_name != 'confirmations' %>
+        <div class="col-md-1" style="border: 1px "><%= link_to "Didn't receive confirmation instructions?", new_confirmation_path(resource_name) %></div>
+        <% end -%>
 
-      	<%- if devise_mapping.confirmable? && controller_name != 'confirmations' %>
-      	<div class="col-md-1" style="border: 1px "><%= link_to "Didn't receive confirmation instructions?", new_confirmation_path(resource_name) %></div>
-      	<% end -%>
-
-      	<%- if devise_mapping.lockable? && resource_class.unlock_strategy_enabled?(:email) && controller_name != 'unlocks' %>
-      	<div class="col-md-1" style="border: 1px "><%= link_to "Didn't receive unlock instructions?", new_unlock_path(resource_name) %></div>
-      	<% end -%>
-      </div>
+        <%- if devise_mapping.lockable? && resource_class.unlock_strategy_enabled?(:email) && controller_name != 'unlocks' %>
+        <div class="col-md-1" style="border: 1px "><%= link_to "Didn't receive unlock instructions?", new_unlock_path(resource_name) %></div>
+        <% end -%>
+  </div>

@@ -14,7 +14,7 @@ Devise.setup do |config|
   # note that it will be overwritten if you use your own mailer class
   # with default "from" parameter.
   config.mailer_sender = 'please-change-me-at-config-initializers-devise@example.com'
-
+  config.scoped_views = true
   # Configure the class responsible to send e-mails.
   # config.mailer = 'Devise::Mailer'
 
@@ -33,7 +33,7 @@ Devise.setup do |config|
   # You can also supply a hash where the value is a boolean determining whether
   # or not authentication should be aborted when the value is not present.
   # config.authentication_keys = [ :email ]
-    config.authentication_keys = [ :username ]
+  config.authentication_keys = [ :username ]
 
 
   # Configure parameters from the request object used for authentication. Each entry
@@ -99,7 +99,7 @@ Devise.setup do |config|
   # a value less than 10 in other environments. Note that, for bcrypt (the default
   # encryptor), the cost increases exponentially with the number of stretches (e.g.
   # a value of 20 is already extremely slow: approx. 60 seconds for 1 calculation).
-  config.stretches = Rails.env.test? ? 1 : 10
+config.stretches = Rails.env.test? ? 1 : 10
 
   # Setup a pepper to generate the encrypted password.
   # config.pepper = '090a4a5950737c7145fb128afce246bebdc191357e008278d3cbc8698640c913236f50f767b77b0757e7289d820f9069c9cc064b1f6dcbee3d35b592915c3793'

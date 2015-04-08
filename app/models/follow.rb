@@ -1,26 +1,6 @@
 class Follow < ActiveRecord::Base
 	belongs_to :user
 
-	def user_follow_count
-		Follow.where(user_id: self.user_id).count
-	end
-
-	def user_follower_count
-		Follow.where(followed_id: self.user_id).count
-	end
-
-	def follow_id(user_id,followed_id)
-		Follow.where(user_id:user_id,followed_id:followed_id).first.id
-	end
-
-	def follow_name
-		User.find(self).username
-	end
-
-	def user_article_count
-		Article.where(user_id: self.user_id).count
-	end
-
 	def user_image
 		user = User.find(self)
 		if user.image.blank?

@@ -1,30 +1,23 @@
-アドミン
-メーラー機能
-プロフィール画像
+		<div class="like-box">
+				<iframe src="http://www.facebook.com/plugins/likebox.php?href=https%3A%2F%2Fwww.facebook.com%2Fpages%2FProgate%2F742679992421539&amp;show_faces=false" scrolling="no" frameborder="0" style="border:none; overflow:hidden; height:300px;" allowTransparency="true"></iframe>
+			</div>
 
 
-admin画面を作りこむ。
-
-ルーティング
-外部のデータベースを取り込む。
-
-
-
-パーシャル化
-http://railstutorial.jp/chapters/filling-in-the-layout?version=4.0#sec-partials
+			show 
+			edit
+			delete 
+			back が必要。
+    <li><%= image_tag current_user.user_image %></li>
 
 
+    if admin 
 
-bootstrap
-http://railstutorial.jp/chapters/filling-in-the-layout?version=4.0#top
+ 		_admin_profile.html.erb
+ 		_profile.html.erb
+ 		_admin_article.html.erb
+ 		_profile.html.erb
 
 
+ 		メーラー機能だな。
 
-userモデルが存在する。　
-adminコントローラーを創る。
-
-モデルはアドミン何だけど、userモデルやarticleモデル
-
-admin  signed_in?を使えば良し。
-
-コントローラーで、条件によってredirect_to
+mailが送られているかどうか。 		

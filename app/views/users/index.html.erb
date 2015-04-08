@@ -6,8 +6,8 @@
 		<div id="contents">
 			<div class="title"><%= image_tag article.user.user_image %></div>
 			<h2 class="title"><%= article.title %></h2>
-			<% if current_user.favorites.find_by(article_id: article)  %>
-			<h2 class="favorite"><%= link_to "♥",favorite_path(current_user.favorites.find_by(article_id: article)), method: :delete %></h2>
+			<% if article.favorites.find_by(user_id: current_user)  %>
+			<h2 class="favorite"><%= link_to "♥",favorite_path(article.favorites.find_by(user_id: current_user)), method: :delete %></h2>
 			<% else %>
 			<h2 class="favorite"><%= link_to "♡",article_favorites_path(article),method: :post %></h2>
 			<% end -%>
@@ -17,7 +17,6 @@
 			<div class="article"><%= article.article %></div>
 		</div>
 		<% end -%>
+		<div><a href="<%= users_path %>">TOPに戻る。</a></div>
 	</div>
-</div>
-<a href="<%= users_path %>">TOPに戻る。</a>
 </div>

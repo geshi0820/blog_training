@@ -5,7 +5,7 @@ class ArticlesController < ApplicationController
 require "RMagick"
 
 	def index
-		@articles = Article.all.order("created_at ASC")
+		@articles = Article.all.order("created_at ASC").includes(:user,:favorites)
 	end
 
 	def show
@@ -44,7 +44,7 @@ require "RMagick"
 	end
 
 	def profile
-		@articles = Article.where(user_id: current_user.id )	
+		@articles = Article.where(user_id: current_user.id ).includes(:favorites)	
 	end
 
 	private

@@ -17,11 +17,14 @@
 			<tr>
 				<td><%= image_tag f.user_image %></td>
 				<td><%= f.username %></td>
-				<td><%= f.username %></td>
 				<td><%= f.follows.size %></td>
 				<td><%= f.reverse_follows.size %></td>
 				<td><%= f.articles.size %></td>
+				<% if current_user.follows.find_by(followed_id: f) %>
 				<td><%= link_to "unfollow", follow_path(current_user.follows.find_by(followed_id: f)) ,method: :delete %></td>
+				<% else %>	
+				<td><%= link_to "follow", user_follows_path(f) , method: :post %></td>
+				<% end %>
 			</tr>
 			<% end -%>
 		</tbody>

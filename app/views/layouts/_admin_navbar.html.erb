@@ -1,0 +1,12 @@
+  <%= stylesheet_link_tag 'admin' %>
+  <div class="header">
+    <div class="header-left">管理者画面</div>
+    <div class="header-right">
+      <ul>
+        <li class="selected"><%= link_to "TOP",admin_users_path %></li>
+        <li>管理者編集</li>
+        <li><%= link_to "Out", destroy_user_session_path, :method => :delete%></li>
+      </ul>
+    </div>
+  </div>
+  <%= yield %>

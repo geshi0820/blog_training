@@ -1,0 +1,31 @@
+<nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="navbar-header">
+    <div class="navbar-brand"><%= link_to "Home", users_path  %></div>
+  </div>
+  <ul class="nav navbar-nav">
+    <li><%= image_tag current_user.user_image %></li>
+    <li><a class="dropdown-toggle" data-toggle="dropdown">
+      <%= current_user.username %><b class="caret"></b></a>
+      <ul class="dropdown-menu">
+        <li><%= link_to "プロフィール",user_path(current_user.id) %></li>
+        <li><%= link_to "お気に入り",user_favorites_path(current_user) %></li>
+        <li><%= link_to "フォロー",user_follows_path(current_user.id)  %></li>
+        <li><%= link_to "フォロワー",follower_user_follows_path(current_user.id) %></li>
+      </ul>
+    </li>
+    <li><a class="dropdown-toggle" data-toggle="dropdown">Menu<b class="caret"></b></a>
+      <ul class="dropdown-menu">
+        <li><%= link_to "タイムライン",users_path %></li>
+        <li><%= link_to "友達を探す",all_users_users_path %></li>
+        <li><%= link_to "他の記事を見る",articles_path %></li>
+      </ul>
+    </li>
+    <li><%= link_to "記事作成", new_article_path, method: :get%></li>
+    <li><%= link_to 'Edit', edit_user_registration_path %></li>
+    <li><%= link_to "Out", destroy_user_session_path, :method => :delete%></li>
+  </ul>
+  <div class="fb-share-button" data-href="https://www.finc.co.jp/" data-layout="button_count" data-action="share" data-show-faces="true" data-share="false"></div>
+  <div id="fb-root"></div>
+</nav> 
+<br><br><br><br>
+<%= yield %>

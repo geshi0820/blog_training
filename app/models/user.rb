@@ -3,8 +3,10 @@ class User < ActiveRecord::Base
          :recoverable, 
          :rememberable, 
          :validatable,
+         :trackable,
+         :registerable,
          :omniauthable,
-         :authentication_keys => [:username]
+         :authentication_keys => [:email]
 
   has_many :articles, 
             dependent: :destroy, 

@@ -7,21 +7,20 @@ Blogapp::Application.routes.draw do
   :passwords => "users/passwords"
 }
 resources :users, :only => [:index, :show, :destroy] do 
+  resources :favorites, only: [:index]
+  delete :user_delete, :on => :member
   collection do
-    get 'all_users'
-    get 'admin' 
-    delete 'delete_all_users'
-    delete 'delete_all_articles' 
-    delete 'user_delete'
+    get :all_users
+    get :admin
+    get :admin_articles
+    delete :delete_all_users
+    delete :delete_all_articles
   end
-
   resources :follows, only: [:index,:create] do
     collection do 
       get 'follower'
     end
   end
-
-  resources :favorites, only: [:index]
 end
 resources :favorites, only: [:destroy] 
 resources :follows, only: [:destroy]
