@@ -3,13 +3,13 @@
 <h1><%= @user.username %>のページ</h1><br>
 	<div class="container">
 		<span>
-			<%= @user.follows.size %> follows
+			<%= link_to @user.follows.size, user_follows_path(@user) %> follows
 		</span>
 		<span>
-			<%= @user.reverse_follows.size %> followers
+			<%= link_to @user.reverse_follows.size,follower_user_follows_path(@user) %> followers
 		</span>
 		<span>
-			<%= @user.username+"のお気に入り" %>
+			<%= link_to @user.username+"のお気に入り",user_favorites_path(@user) %>
 		</span>
 		<table class="table-hover">
 			<thead>

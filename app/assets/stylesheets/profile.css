@@ -16,3 +16,10 @@ h1{
 span{
 	font-size: 25px;
 }
+button{
+	width: 100px;
+}
+
+button > a{
+	color: white;
+}

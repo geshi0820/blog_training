@@ -4,7 +4,7 @@
 	<div id="main">
 		<% @articles.each do |article| %>
 		<div id="contents">
-			<div class="title"><%= image_tag article.user.user_image %></div>
+			<div class="title"><%= link_to image_tag(article.user.user_image) ,user_path(article.user_id) %></div>
 			<h2 class="title"><%= article.title %></h2>
 			<% if article.favorites.find_by(user_id: current_user)  %>
 			<h2 class="favorite"><%= link_to "♥",favorite_path(article.favorites.find_by(user_id: current_user)), method: :delete %></h2>
@@ -17,6 +17,5 @@
 			<div class="article"><%= article.article %></div>
 		</div>
 		<% end -%>
-		<div><a href="<%= users_path %>">TOPに戻る。</a></div>
 	</div>
 </div>

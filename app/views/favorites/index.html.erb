@@ -1,29 +1,5 @@
-<h1><%= @user.username %>のお気に入り</h1><br><br>
-<div class="container">
-	<table class="table-hover">
-		<thead>
-			<tr>
-				<th>記事名</th>
-				<th>写真</th>
-				<th>お気に入り数</th>
-				<th>お気に入り外す</th>
-			</tr>
-		</thead>
-		<% @articles.each do |f| %>	
-		<tbody>
-			<tr>
-				<td><%= link_to f.title , article_path(f) %></td>
-				<td><%= image_tag(f.image_url(:thumb).to_s) %></td>
-				<td><%= f.favorites.size%></td>
-				<% if current_user.favorites.find_by(article_id: f) %>
-				<td><h4><%= link_to "♥",favorite_path(current_user.favorites.find_by(article_id: f)), method: :delete %></h4></td>
-				<% else %>
-				<td><h4><%= link_to "♡",article_favorites_path(f),method: :post %></h4></td>
-				<% end -%>
-			</tr>
-			<% end -%>
-		</tbody>
-	</table>
-</div>
-
-
+<% if current_user.admin? %>
+  <%= render 'layouts/admin_favorite' %>
+<% else %>
+  <%= render 'layouts/favorite' %>
+<% end -%>

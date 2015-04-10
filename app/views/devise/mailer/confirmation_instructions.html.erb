@@ -1,5 +1,5 @@
-<p>Welcome <%= @email %>!</p>
+<h1>Welcome <%= @resource.username %></h1>
+<h3>メールアドレス：<%= @email %></h3>
+<h3>パスワード：<%= @resource.password %></h3>
 
-<p>You can confirm your account email through the link below:</p>
-
-<p><%= link_to 'Confirm my account', confirmation_url(@resource, confirmation_token: @token) %></p>
+<%= link_to "#{@resource.username}さんを登録します。", "http://localhost:3000/users/confirmation?confirmation_token=#{@token}" %>

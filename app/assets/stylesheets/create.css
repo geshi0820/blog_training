@@ -6,8 +6,7 @@
 	}
 	#mycanvas {
 		border: 3px solid black;
-		cursor: crosshair;
-		background-color: white;
+		cursor: pointer;
 	}
 	.thumbnail {
 		border: 2px solid black;

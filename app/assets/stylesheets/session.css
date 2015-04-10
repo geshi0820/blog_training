@@ -5,6 +5,36 @@
     height:100%;
   }
 
+  .title{
+    color: white;
+    font-size: 50px;
+    padding-left: 450px;
+  }
+
+  .reset{
+    color: white;
+    font-size: 40px;
+    padding-left: 400px;
+  }
+  
+  .cancel a{
+    color: white;
+    font-size: 20px;
+  }
+
+  .cancel a:visited {
+    color: #222222;
+  }
+
+  .cancel a:hover {
+    color: #333333;
+  }
+
+  .cancel a:active {
+    color: #444444;
+  }
+
+
   #feedback-page{
     text-align:center;
   }
@@ -100,7 +130,7 @@
     background-repeat: no-repeat;
   }
 
-    #user_current_password{
+  #user_current_password{
     background-image: url(http://rexkirby.com/kirbyandson/images/comment.svg);
     background-size: 30px 30px;
     background-position: 11px 8px;

@@ -15,18 +15,20 @@
 						<tr>
 							<th class="th-1">ID</th>
 							<th class="th-2">タイトル</th>
+							<th class="th-12">写真</th>
 							<th class="th-3">作成者</th>
 							<th class="th-4">作成時</th>
-							<th class="th-5">編集</th>
+							<th class="th-6">ふぁぼ</th>
 							<th class="th-6">削除</th>
 						</tr>
 						<% @articles.each do |f| %>
 						<tr>
 							<td class="th-1"><%= f.id %></td>
 							<td class="th-2"><%= link_to f.title, article_path(f)%></td>
+							<td class="th-12"><%= image_tag(f.image_url(:thumb).to_s) %></td>
 							<td class="th-3"><%= f.user.username %></td>
 							<td class="th-4"><%= tokyotime(f.created_at) %></td>
-							<td class="th-5"><%= link_to image_tag("/assets/edit.png/"), edit_article_path(f) -%></td>
+							<td><%= f.favorites.size %></td>
 							<td class="th-6"><%= link_to image_tag("/assets/drop.jpg/"), article_path(f), method: :delete , data: {confirm: "本当に削除しますか？"} -%></td>
 						</tr>
 						<% end %>

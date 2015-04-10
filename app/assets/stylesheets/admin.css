@@ -3,6 +3,10 @@ li
   list-style: none;
 }
 
+td > a{
+  text-decoration: underline;
+}
+
 .header
 {
   height: 65px;

@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
 	before_action :set_user, only: [:show,:destroy]
-	before_action :admin_check, only: [:admin,:admin_articles]
+	before_filter :authenticate_user!
+	before_action :check_admin, only: [:admin, :admin_articles, :delete_all_users, :delete_all_articles]
 
 	def index
 		if current_user.admin?
@@ -26,34 +27,35 @@ class UsersController < ApplicationController
 		@users = User.where(admin: false).includes(:articles,:follows,:reverse_follows)
 	end
 
-	def user_delete
-		@user = User.find(params[:id])
-		follows = @user.reverse_follows
-		p follows
-		unless follows.empty?
-			follows.destroy_all
-		end
-		@user.destroy
-		redirect_to users_path
-	end
-
-	def admin
+	def admin		
 		@users = User.where(admin: false).includes(:articles,:follows,:reverse_follows)
 	end
 
 	def admin_articles
-		@articles = Article.all.includes(:favorites)
+		unless current_user.admin?
+			redirect_to users_path
+		else
+			@articles = Article.all.includes(:favorites)
+		end
 	end
 
 	def delete_all_users
-		@users = User.all
-		@users.destroy_all
-		redirect_to :back 
+		unless current_user.admin?
+			redirect_to users_path
+		else
+			@users = User.all
+			@users.destroy_all
+			redirect_to :back 
+		end
 	end
 
 	def delete_all_articles
-		Article.all.destroy_all
-		redirect_to :back
+		unless current_user.admin?
+			redirect_to users_path
+		else
+			Article.all.destroy_all
+			redirect_to :back
+		end
 	end
 
 	private
@@ -61,9 +63,10 @@ class UsersController < ApplicationController
 		@user = User.find(params[:id])
 	end
 
-	def admin_check
+	def check_admin
 		unless current_user.admin?
 			redirect_to users_path
 		end
 	end
+
 end

@@ -1,30 +1,32 @@
 class User < ActiveRecord::Base
   devise :database_authenticatable, 
-         :recoverable, 
-         :rememberable, 
-         :validatable,
-         :trackable,
-         :registerable,
-         :omniauthable,
-         :authentication_keys => [:email]
+  :recoverable, 
+  :rememberable, 
+  :validatable,
+  :trackable,
+  :confirmable,
+  :registerable,
+  :omniauthable,
+  :authentication_keys => [:username]
+
+  validates :username, presence: true
 
   has_many :articles, 
-            dependent: :destroy, 
-            through: :favorites
+  dependent: :destroy
 
   has_many :comments, 
-            dependent: :destroy
+  dependent: :destroy
 
   has_many :favorites, 
-            dependent: :destroy
+  dependent: :destroy
 
   has_many :follows, 
-            dependent: :destroy 
+  dependent: :destroy 
 
   has_many :reverse_follows, 
-            foreign_key: "followed_id",
-            class_name:  "Follow",
-            dependent: :destroy
+  foreign_key: "followed_id",
+  class_name:  "Follow",
+  dependent: :destroy
 
   mount_uploader :image, ImageUploader
 
@@ -64,6 +66,8 @@ class User < ActiveRecord::Base
     end
     user
   end 
+
+
 end
 
 

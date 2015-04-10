@@ -60,6 +60,13 @@ h1{
   background-color: white;
 }
 
+button{
+  width: 100px;
+}
+
+button > a{
+  color: white;
+}
 
 html {
     background-image: url("back.jpg");
@@ -80,10 +87,19 @@ body > .container {
     height: 100%;
     width: 600px;
     margin: 100px 100px 0px 300px; 
-    background-color: black;
-    background: rgba(0, 0, 0, 0.4);
-    box-shadow: 0 0 3px rgba(0,0,0,0.5);
 }
+
+#error_explanation{
+  color: white;
+  float: right;
+  padding-top: 20px;
+}
+
+#error_explanation > h2{
+  font-size: 20px;  
+  color: white;
+}
+
 
 .favorite{
   margin-bottom: 20px;
@@ -4874,6 +4890,8 @@ a.thumbnail.active {
   margin-bottom: 20px;
   border: 1px solid transparent;
   border-radius: 4px;
+  color: red;
+  width: 400px;
 }
 .alert h4 {
   margin-top: 0;

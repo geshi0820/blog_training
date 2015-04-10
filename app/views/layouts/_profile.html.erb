@@ -11,8 +11,8 @@
 			<%= link_to @user.username+"のお気に入り",user_favorites_path(@user) %>
 		</span>
 			<% unless @user == current_user %> 
-				<% if @user.follows.find_by(user_id: current_user) %>
-					<button class="btn btn-danger"><%= link_to "unfollow", follow_path(@user.follows.find_by(user_id: current_user)) ,method: :delete %></button>
+				<% if current_user.follows.find_by(followed_id: @user.id) %>
+					<button class="btn btn-danger"><%= link_to "unfollow", follow_path(current_user.follows.find_by(followed_id: @user.id)) ,method: :delete %></button>
 				<% else %>
 					<button class="btn btn-primary"><%= link_to "follow", user_follows_path(@user) , method: :post %></button>
 				<% end %>
@@ -24,7 +24,7 @@
 					<th>写真</th>
 					<th>作成時</th>
 					<th>お気に入り数</th>
-					<th>削除</th>
+					<th></th>
 				</tr>
 			</thead>
 		  <% @user_articles.each do |article| %>	

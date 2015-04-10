@@ -1,0 +1,33 @@
+<h1><%= @user.username %>のフォロワー</h1>
+<br><br>
+<div class="container">
+	<table class="table-hover">
+		<thead>
+			<tr>
+				<th>プロフィール</th>
+				<th>名前</th>
+				<th>フォロー数</th>
+				<th>フォロワー数</th>
+				<th>記事数</th>
+				<th>フォロー</th>
+			</tr>
+		</thead>
+		<% @users.each do |f| %>		
+		<tbody>
+			<tr>
+				<td><%= image_tag f.user_image %></td>
+				<td><%= link_to f.username, user_path(f) %></td>
+				<td><%= f.follows.size %></td>
+				<td><%= f.reverse_follows.size %></td>
+				<td><%= f.articles.size %></td>
+				<% if current_user.follows.find_by(followed_id: f) %>
+				<td><button class="btn btn-danger"><%= link_to "unfollow", follow_path(current_user.follows.find_by(followed_id: f)) ,method: :delete %></button></td>
+				<% else %>
+				<td>
+					<button class="btn btn-primary"><%= link_to "follow", user_follows_path(f) , method: :post %></button></td>	
+					<% end %>
+				</tr>
+			</tbody>
+			<% end -%>
+		</table>
+	</div>

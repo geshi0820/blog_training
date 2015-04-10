@@ -20,9 +20,9 @@
 				<td><%= f.reverse_follows.size %></td>
 				<td><%= f.articles.size %></td>
 				<% if current_user.follows.find_by(followed_id: f) %>
-				<td><%= link_to "unfollow", follow_path(current_user.follows.find_by(followed_id: f)) ,method: :delete %></td>
-				<% else %>	
-				<td><%= link_to "follow", user_follows_path(f) , method: :post %></td>
+				<td><button class="btn btn-danger"><%= link_to "unfollow", follow_path(current_user.follows.find_by(followed_id: f)) ,method: :delete %></button></td>
+				<% else %>
+				<td><button class="btn btn-primary"><%= link_to "follow", user_follows_path(f) , method: :post %></button></td>
 				<% end %>
 			</tr>
 		</tbody>

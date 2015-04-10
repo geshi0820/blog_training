@@ -1,0 +1,27 @@
+<span class="admin">管理者専用</span>
+<h1><%= @user.username %>のフォロワー</h1>
+<br><br>
+<div class="container">
+	<table class="table-hover">
+		<thead>
+			<tr>
+				<th>プロフィール</th>
+				<th>名前</th>
+				<th>フォロー数</th>
+				<th>フォロワー数</th>
+				<th>記事数</th>
+			</tr>
+		</thead>
+			<% @users.each do |f| %>		
+		<tbody>
+			<tr>
+				<td><%= image_tag f.user_image %></td>
+				<td><%= link_to f.username, user_path(f) %></td>
+				<td><%= f.follows.size %></td>
+				<td><%= f.reverse_follows.size %></td>
+				<td><%= f.articles.size %></td>
+			</tr>
+		</tbody>
+		<% end -%>
+	</table>
+</div>

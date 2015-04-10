@@ -1,21 +1,5 @@
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 constration 
 
 正規表現
@@ -31,11 +15,7 @@ sessionを保持しているのは、javascript]
 end
 
 
-
-
-
 コントローラーにアドミンユーザーしかアクセス出来ないメソッドを記述する。
-
 
 
 課題１：アプリケーション.htmlを適用しない。
@@ -44,10 +24,6 @@ app/views/layouts/books.html.erb
 
 ①booleanによって
 if current
-
-
-
-
 
 
 
@@ -67,8 +43,6 @@ log_in
 アドミン　→　admin.html.erb
 
 
-
-
 アドミン
 メーラー機能
 プロフィール画像
@@ -78,8 +52,6 @@ admin画面を作りこむ。
 
 ルーティング
 外部のデータベースを取り込む。
-
-
 
 パーシャル化
 http://railstutorial.jp/chapters/filling-in-the-layout?version=4.0#sec-partials
@@ -101,8 +73,6 @@ admin  signed_in?を使えば良し。
 コントローラーで、条件によってredirect_to
 
 
-
-
 boolean 
 
 if current_user(:admin?)
@@ -116,12 +86,6 @@ end
 
 
 edit がない。
-
-
-
-
-
-
 
 
 
