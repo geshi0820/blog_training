@@ -52,10 +52,14 @@ end
 group :development, :test do
  gem "rspec-rails", "~> 2.14.0"
  gem "factory_girl_rails", "4.2.1"
+ gem "spork-rails",github: "sporkrb/spork-rails"
+ gem "guard-spork"
 end
 
 group :test do
   gem "faker", "~> 1.1.2"
+	gem 'guard-rspec'
+	gem 'spork',">0.9.0.rc"
   gem "capybara", "~> 2.1.0"  
   gem "database_cleaner", "~> 1.0.0"
   gem "launchy", "~> 2.3.0"

@@ -49,7 +49,7 @@ require "RMagick"
 
 	private
 	def article_params
-		params[:article].permit(:title,:article,:user_id,:image, :remote_image_url)
+		params[:article].permit(:title,:article,:user_id,:remote_image_url)
 	end
 
 	def comment_params
