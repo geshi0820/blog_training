@@ -16,6 +16,7 @@
 				}
 				);
 			$('#back_image').load(function(){
+					alert("hello");
 					var c = document.getElementById("mycanvas");
 					var ctx = c.getContext("2d");
 					var img = document.getElementById("back_image");
