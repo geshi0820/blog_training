@@ -7,12 +7,10 @@ module CarrierwaveBase64Uploader
     image_data = split_base64(uri_str)
     image_data_string = image_data[:data]
     image_data_binary = Base64.decode64(image_data_string)
- 
     temp_img_file = Tempfile.new(filename)
     temp_img_file.binmode
     temp_img_file << image_data_binary
     temp_img_file.rewind
- 
     img_params = {:filename => "#{filename}.#{image_data[:extension]}", :type => image_data[:type], :tempfile => temp_img_file}
     ActionDispatch::Http::UploadedFile.new(img_params)
   end

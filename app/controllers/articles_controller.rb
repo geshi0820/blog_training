@@ -23,7 +23,7 @@ require "RMagick"
 		tmp_article_params[:image] = image_data
 		tmp_article_params[:remote_image_url] = nil
 		article = Article.new(tmp_article_params)
-		if article.save
+		if article.save!
 			redirect_to users_path
 		else
 			redirect_to :back
@@ -49,7 +49,7 @@ require "RMagick"
 
 	private
 	def article_params
-		params[:article].permit(:title,:article,:user_id,:remote_image_url)
+		params[:article].permit(:title,:article,:user_id,:remote_image_url, :image)
 	end
 
 	def comment_params
