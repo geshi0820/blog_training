@@ -24,8 +24,6 @@ describe User do
 				expect(build(:user, email: 'aaa@mail.com')).to have(1).errors_on(:email)
 			end
 		end
-
-		describe "with a foreign-key"
 	end
 end
 

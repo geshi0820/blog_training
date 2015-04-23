@@ -22,20 +22,10 @@ require "RMagick"
 		tmp_article_params[:image] = image_data
 		tmp_article_params[:remote_image_url] = nil
 		article = Article.new(tmp_article_params)
-		p 'hellow'
-		if article.save!
-			redirect_to users_path
+		if article.save
+			redirect_to users_path ,notice: "「#{@article.title}」の投稿が行われました。"
 		else
-			p 'hello'
-			render 'new'
-		end
-	end
-
-	def update
-		if @article.update(article_params)
-			redirect_to articles_path
-		else
-			render 'edit'
+			redirect_to new_article_path	
 		end
 	end
 

@@ -64,8 +64,8 @@ describe ArticlesController do
           expect{post :create, article: error_article}.to raise_error
         end
         it 're-render new',focus: true do  
-          post :create, article: attributes_for(:invalid_article)
-          expect(response).to render_template :new
+          post :create, article: error_article
+          expect(response).to redirect_to new_article_path  
         end
       end
     end
@@ -86,7 +86,6 @@ describe ArticlesController do
       end
     end
   end
-
 
   describe 'user access ->' do
     login_user
