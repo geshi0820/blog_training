@@ -2,7 +2,7 @@ require 'spec_helper'
 describe ArticlesController do
   let(:article) {create(:article)}
   let(:valid_article) {attributes_for(:params_article)}
-  let(:error_article) {attributes_for(:invalid_article)}
+  let(:error_article) {attributes_for(:params_article,title: nil)}
   
   describe 'User access' do
     login_user
@@ -61,13 +61,12 @@ describe ArticlesController do
         end
       end
 
-      context 'with invalid attributes' ,focus: true do
+      context 'with invalid attributes'  do
         it 'does not save the new article' do
-          expect{post :create, article: error_article}.to change(Article, :count).by(1)
+          expect{post :create, article: error_article }.to change(Article, :count).by(0)
         end
         it 're_redirects to the new' do  
-          p error_article
-          post :create, article: attributes_for(:invalid_article)
+          post :create, article: error_article
           expect(response).to redirect_to new_article_path  
         end
       end
