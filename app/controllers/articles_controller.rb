@@ -1,5 +1,4 @@
 class ArticlesController < ApplicationController
-	
 	before_action :facebook
 	before_action :set_article, only:[:edit,:show,:update,:destroy,] 
 require "RMagick"
@@ -23,10 +22,12 @@ require "RMagick"
 		tmp_article_params[:image] = image_data
 		tmp_article_params[:remote_image_url] = nil
 		article = Article.new(tmp_article_params)
+		p 'hellow'
 		if article.save!
 			redirect_to users_path
 		else
-			redirect_to :back
+			p 'hello'
+			render 'new'
 		end
 	end
 
