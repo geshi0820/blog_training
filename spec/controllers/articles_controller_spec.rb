@@ -1,9 +1,10 @@
 require 'spec_helper'
 describe ArticlesController do
   let(:article) {create(:article)}
+  let(:profile_article) {create(:article, user_id: 100)}
   let(:valid_article) {attributes_for(:params_article)}
   let(:error_article) {attributes_for(:params_article,title: nil)}
-  
+
   describe 'User access' do
     login_user
     describe 'GET #index' do
@@ -15,21 +16,21 @@ describe ArticlesController do
         a1,a2 = create(:article),create(:article)
         expect(assigns(:articles)).to match_array([a1,a2])
       end
-      
+
       it 'renders the index template' do
         expect(response).to render_template :index
       end
     end
-    
+
     describe 'GET#show' do
       before do
         get :show, id: article
       end
-      
+
       it 'assigns the requested article to @article' do
         expect(assigns(:article)).to eq article
       end
-      
+
       it 'renders the show template' do 
         expect(response).to render_template :show
       end
@@ -43,7 +44,7 @@ describe ArticlesController do
       it 'assigns a new Article to @article' do
         expect(assigns(:article)).to be_a_new(Article)
       end
-      
+
       it 'renders the new template' do
         expect(response).to render_template :new
       end
@@ -98,5 +99,4 @@ describe ArticlesController do
     end
   end
 end
-
 

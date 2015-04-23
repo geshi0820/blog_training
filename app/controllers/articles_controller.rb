@@ -34,10 +34,6 @@ require "RMagick"
 		redirect_to :back
 	end
 
-	def profile
-		@articles = Article.where(user_id: current_user.id ).includes(:favorites)	
-	end
-
 	private
 	def article_params
 		params[:article].permit(:title,:article,:user_id,:remote_image_url, :image)
