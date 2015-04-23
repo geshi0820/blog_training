@@ -68,7 +68,7 @@ describe ArticlesController do
         end
         it 're_redirects to the new' do  
           post :create, article: error_article
-          expect(response).to redirect_to new_article_path  
+          expect(response).to render_template :new
         end
       end
     end
@@ -94,6 +94,12 @@ describe ArticlesController do
     describe 'GET #index' do
       it 'redirects to the sign_in' do
         get :index
+        expect(response).to redirect_to new_user_session_path
+      end
+    end
+    describe 'GET #index' do
+      it 'redirects to the sign_in' do
+        get :show, id: article
         expect(response).to redirect_to new_user_session_path
       end
     end
