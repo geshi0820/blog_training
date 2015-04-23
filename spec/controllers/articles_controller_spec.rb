@@ -11,7 +11,7 @@ describe ArticlesController do
         get :index
       end
 
-      it 'populates an array of article' do
+      it 'populates an array of articles' do
         a1,a2 = create(:article),create(:article)
         expect(assigns(:articles)).to match_array([a1,a2])
       end
@@ -89,7 +89,7 @@ describe ArticlesController do
     end
   end
 
-  describe  'User not access' do
+  describe  'User does not access' do
     describe 'GET #index' do
       it 'redirects to the sign_in' do
         get :index
