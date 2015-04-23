@@ -6,7 +6,6 @@ class Article < ActiveRecord::Base
 						dependent: :destroy
 	mount_uploader :image, ImageUploader
   validates :title, presence: true
-
 end
 
 

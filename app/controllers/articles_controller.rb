@@ -17,14 +17,16 @@ require "RMagick"
 	end
 
 	def create
+		p 'hey'
 		tmp_article_params = article_params
 		image_data = base64_conversion(tmp_article_params[:remote_image_url])
 		tmp_article_params[:image] = image_data
 		tmp_article_params[:remote_image_url] = nil
 		article = Article.new(tmp_article_params)
 		if article.save
-			redirect_to users_path ,notice: "「#{@article.title}」の投稿が行われました。"
+			redirect_to users_path 
 		else
+			p 'hello'
 			redirect_to new_article_path	
 		end
 	end

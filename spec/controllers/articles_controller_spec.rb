@@ -3,7 +3,9 @@ describe ArticlesController do
   let(:article) {create(:article)}
   let(:valid_article) {attributes_for(:params_article)}
   let(:error_article) {attributes_for(:invalid_article)}
-  shared_examples("index/show/create/destroy") do
+  
+  describe 'User access' do
+    login_user
     describe 'GET #index' do
       before do
         get :index
@@ -14,68 +16,69 @@ describe ArticlesController do
         expect(assigns(:articles)).to match_array([a1,a2])
       end
       
-      it 'render index' do
+      it 'renders the index template' do
         expect(response).to render_template :index
       end
     end
     
-    describe 'GET#show ->' do
+    describe 'GET#show' do
       before do
         get :show, id: article
       end
       
-      it '@article' do
+      it 'assigns the requested article to @article' do
         expect(assigns(:article)).to eq article
       end
       
-      it 'redirects show' do 
+      it 'renders the show template' do 
         expect(response).to render_template :show
       end
     end
 
-    describe 'GET #new ->' do
+    describe 'GET #new' do
       before do
         get :new
       end
 
-      it 'new @article' do
+      it 'assigns a new Article to @article' do
         expect(assigns(:article)).to be_a_new(Article)
       end
       
-      it 'render new' do
+      it 'renders the new template' do
         expect(response).to render_template :new
       end
     end
 
-    describe 'POST #create ->' do
-      context 'valid ->' do
-        it '@article.save' do 
+    describe 'POST #create' do
+      context 'with valid attributes' do
+        it 'creates a new article' do 
           expect{post :create, article: valid_article}.to change(Article, :count).by(1)
         end
 
-        it 'redirects index' do
+        it 'redirects to the index' do
           post :create, article: valid_article
           expect(response).to redirect_to users_path
         end
       end
 
-      context 'invalid ->' do
-        it 'not @article.save' do
-          expect{post :create, article: error_article}.to raise_error
+      context 'with invalid attributes' ,focus: true do
+        it 'does not save the new article' do
+          expect{post :create, article: error_article}.to change(Article, :count).by(1)
         end
-        it 're-render new',focus: true do  
-          post :create, article: error_article
+        it 're_redirects to the new' do  
+          p error_article
+          post :create, article: attributes_for(:invalid_article)
           expect(response).to redirect_to new_article_path  
         end
       end
     end
 
-    describe 'DELETE #destroy ->'  do
+    describe 'DELETE #destroy'  do
       before do
         request.env["HTTP_REFERER"] = 'redirect to back'
       end
 
-      it '@article.destroy' do
+      it 'deletes the article' do
         article
         expect{delete :destroy, id: article}.to change(Article,:count).by(-1)
       end
@@ -87,14 +90,9 @@ describe ArticlesController do
     end
   end
 
-  describe 'user access ->' do
-    login_user
-    it_behaves_like "index/show/create/destroy"
-  end
-
-  describe  'user not access ->' do
+  describe  'User not access' do
     describe 'GET #index' do
-      it 'redirect_to sign_in' do
+      it 'redirects to the sign_in' do
         get :index
         expect(response).to redirect_to new_user_session_path
       end
