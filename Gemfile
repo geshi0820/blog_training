@@ -11,6 +11,13 @@ gem 'omniauth'
 gem 'omniauth-facebook'
 gem 'omniauth-twitter'
 gem 'letter_opener'
+gem 'hirb'
+gem 'hirb-unicode' # => HirbのUnicode対応版。日本語が入っていても結果がずれないようになります。
+gem 'pry-rails'
+gem 'pry-doc'    # methodを表示
+gem 'pry-byebug' # デバッグを実施(Ruby 2.0以降で動作する)
+gem 'pry-stack_explorer' # スタックをたどれる
+gem 'awesome_print'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.0.8'
 
