@@ -1,10 +1,10 @@
 class ArticlesController < ApplicationController
 	before_action :facebook
-	before_action :set_article, only:[:edit,:show,:update,:destroy,] 
+	before_action :set_article, only:[:edit, :show, :update, :destroy] 
 require "RMagick"
 
 	def index
-		@articles = Article.all.order("created_at ASC").includes(:user,:favorites)
+		@articles = Article.all.order("created_at ASC").includes(:user, :favorites)
 	end
 
 	def show

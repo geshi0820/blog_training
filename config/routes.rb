@@ -7,26 +7,28 @@ Blogapp::Application.routes.draw do
   :passwords => "users/passwords"
 }
 resources :users, :only => [:index, :show, :destroy] do 
-  resources :favorites, only: [:index]
-  delete :user_delete, :on => :member
-  collection do
-    get :all_users
-    get :admin
-    get :admin_articles
-    delete :delete_all_users
-    delete :delete_all_articles
-  end
-  resources :follows, only: [:index,:create] do
-    collection do 
-      get 'follower'
-    end
+  resources :follows, only: [:create, :destroy]
+  member do
+    get :following, :follower, :favorite
   end
 end
-resources :favorites, only: [:destroy] 
-resources :follows, only: [:destroy]
+
 resources :articles do 
-  resources :comments, only: [:create,:destroy]
-  resources :favorites, only: [:create] 
+  resources :comments, only: [:create, :destroy]
+  resources :favorites, only: [:create, :destroy] 
+end
+
+namespace :admin do
+  resources :users, :only => [:index, :show, :destroy] do
+    collection do 
+      delete :destroy_all_users
+    end
+  end
+  resources :articles, :only => [:index, :show, :destroy] do 
+    collection do 
+      delete :destroy_all_articles  
+    end
+  end
 end
 
   # The priority is based upon order of creation: first created -> highest priority.

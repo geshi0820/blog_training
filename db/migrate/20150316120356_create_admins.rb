@@ -3,7 +3,6 @@ class CreateAdmins < ActiveRecord::Migration
     create_table :admins do |t|
       t.string :admin_user
       t.string :admin_email
-
       t.timestamps
     end
   end
